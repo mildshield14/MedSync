@@ -27,6 +27,7 @@ public class LogInAPI {
         }
 
     }
+
     @GetMapping("/username")
     public ResponseEntity<LoginResponse> getLoginInfo() {
         String name = "John Doe";
