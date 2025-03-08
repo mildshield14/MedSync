@@ -16,6 +16,36 @@ public class LogInRepository {
     public LogInRepository(DataSource dataSource) {
         this.dataSource = dataSource;
     }
+    public void createTableIfNotExists() {
+        String sql = "CREATE TABLE IF NOT EXISTS users (id SERIAL PRIMARY KEY,username VARCHAR(255) UNIQUE NOT NULL,"
+                + "password VARCHAR(255) NOT NULL);"
+                + "INSERT INTO users (username, password) VALUES ('username1', 'password1');"
+                + "INSERT INTO users (username, password) VALUES ('username2', 'password2');"
+                + "INSERT INTO users (username, password) VALUES ('username3', 'password3');";
+        try (Connection connection = dataSource.getConnection();
+             PreparedStatement statement = connection.prepareStatement(sql)) {
+             statement.executeQuery();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public boolean registerUser(String username, String password) {
+        String sql = "INSERT INTO users (username, password) VALUES (?, ?)";
+        try (Connection connection = dataSource.getConnection();
+             PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setString(1, username);
+            statement.setString(2, password);
+            statement.executeQuery();
+            ResultSet resultSet = statement.executeQuery();
+            return resultSet.next(); // If any result, user is valid
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
 
     public boolean isUserValid(String username, String password) {
         String sql = "SELECT * FROM users WHERE username = ? AND password = ?";
