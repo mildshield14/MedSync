@@ -1,4 +1,4 @@
-package com.heroku.java;
+package src.main.java.com.heroku.java;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
