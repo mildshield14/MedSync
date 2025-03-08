@@ -19,11 +19,12 @@ public class LogInAPI {
     }
     @PostMapping("/login")
     public ResponseEntity<String> login(@RequestParam String username, @RequestParam String password) {
+        authRepository.createTableIfNotExists();
         if(checkAuthentification(username, password)) {
             return ResponseEntity.ok("Login successful");
         }else{
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-                    .body("Login failed: Invalid credentials");
+                    .body("Login failed: Invalid credentials for user " + username);
         }
 
     }
