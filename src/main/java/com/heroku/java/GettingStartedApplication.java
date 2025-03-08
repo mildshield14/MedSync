@@ -1,4 +1,4 @@
-package src.main.java.com.heroku.java;
+package com.heroku.java;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
@@ -49,6 +49,7 @@ public class GettingStartedApplication {
     }
 
     public static void main(String[] args) {
+
         SpringApplication.run(GettingStartedApplication.class, args);
     }
 }
