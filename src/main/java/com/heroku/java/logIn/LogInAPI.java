@@ -12,21 +12,43 @@ import org.springframework.web.bind.annotation.RestController;
 
 public class LogInAPI {
 
+    @PostMapping("/login")
+    public ResponseEntity<String> login(@RequestParam String username, @RequestParam String password) {
+        if(checkAuthentification(username, password)) {
+            return ResponseEntity.ok("Login successful");
+        }else{
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                    .body("Login failed: Invalid credentials");
+        }
 
-    @GetMapping("/login")
-    public String showLoginForm() {
-        // Return an HTML form or a template name if using Thymeleaf, etc.
-        return "<html><body>"
-                + "<form method='POST' action='/login'>"
-                + "Username: <input type='text' name='username' /><br>"
-                + "Password: <input type='password' name='password' /><br>"
-                + "<input type='submit' value='Login' />"
-                + "</form></body></html>";
+    }
+    @GetMapping("/username")
+    public ResponseEntity<LoginResponse> getLoginInfo() {
+        // Simuler un nom d'utilisateur (normalement récupéré depuis la base de données ou un token)
+        String name = "John Doe";
+
+        // Créer la réponse
+        LoginResponse response = new LoginResponse(name);
+
+        // Retourner la réponse avec un code 200
+        return ResponseEntity.ok(response);
     }
 
-    @PostMapping("/login")
-    public ResponseEntity<String> login(){//@RequestParam String username, @RequestParam String password) {
-            return ResponseEntity.ok("Login successful");
+    // Classe interne représentant la réponse JSON
+    public static class LoginResponse {
+        private String name;
+        public LoginResponse(String name) {
+            this.name = name;
+        }
+    }
 
+    public boolean checkAuthentification(String username, String password){
+        String usernameCheck = "username1";
+        String passwordCheck = "password123";
+        if(username.equalsIgnoreCase(usernameCheck) && password.equalsIgnoreCase(passwordCheck)){
+            return true;
+        }else{
+            return false;
+        }
     }
 }
