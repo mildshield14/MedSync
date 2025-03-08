@@ -46,6 +46,7 @@ public class LogInRepository {
         }
     }
 
+
     public boolean isUserValid(String username, String password) {
         String sql = "SELECT * FROM users WHERE username = ? AND password = ?";
         try (Connection connection = dataSource.getConnection();
