@@ -3,6 +3,11 @@ package LogIn;
 
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
 import java.io.IOException;
 
 public class LogInAPI extends HttpServlet {
@@ -13,15 +18,13 @@ public class LogInAPI extends HttpServlet {
         userService = new UserService();
     }
 
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String username = request.getParameter("username");
-        String password = request.getParameter("password");
+    @PostMapping("/login")
+    public ResponseEntity<?> login(@RequestParam String username, @RequestParam String password) {
 
         if (userService.authenticate(username, password)) {
-            response.getWriter().write("Login successful!");
+            return ResponseEntity.ok("Login successful");
         } else {
-            response.getWriter().write("Invalid username or password.");
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid credentials");
         }
     }
 
