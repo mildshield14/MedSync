@@ -2,7 +2,7 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import '../scss/Navbar.scss'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faHouse, faCircleUser } from '@fortawesome/free-solid-svg-icons'
+import {faHouse, faCircleUser, faCircleChevronRight} from '@fortawesome/free-solid-svg-icons'
 
 interface NavbarProps {
     isAuthenticated: boolean;
@@ -25,17 +25,21 @@ const Navbar: React.FC<NavbarProps> = ({ isAuthenticated, onLogout }) => {
                   <li>
                   <Link to="/profile">
                     <FontAwesomeIcon icon={faCircleUser} />
-                    <span className="navbar__links-name"><span className="navbar__links-name">Profile</span></span>
+                    <span className="navbar__links-name">Profile</span>
                   </Link>
               </li>
               <li>
-                <button onClick={onLogout}>Logout</button>
+                  <FontAwesomeIcon icon={faCircleChevronRight}/>
+                  <span onClick={onLogout} className="navbar__links-name">Logout</span>
               </li>
             </>
           ) : (
             <>
               <li>
-                <Link to="/login">Login</Link>
+                <Link to="/login">
+                  <FontAwesomeIcon icon={faCircleUser} />
+                  <span onClick={onLogout} className="navbar__links-name">Login</span>
+              </Link>
               </li>
             </>
           )}
