@@ -42,7 +42,7 @@ public class LogInAPI {
             response.addCookie(cookie);
 
             return ResponseEntity.ok("Login successful");
-        }else{
+        } else{
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
                     .body("Login failed: Invalid credentials for user ");
         }
@@ -86,7 +86,6 @@ public class LogInAPI {
         }
 
     }
-
 
     @GetMapping("/username")
     public ResponseEntity<LoginResponse> getLoginInfo(Long id) {

@@ -2,33 +2,22 @@ package com.heroku.java;
 
 import java.util.Date;
 
-public class Appointment {
+public class Appointment extends Events {
 
     String location;
     int userId;
-    int appointmentId;
-
     Boolean isVirtual;
-    String title;
-    Date schedule;
+
     public String getLocation() {
         return location;
     }
 
-    public Boolean getIsVirtual(){
+    public Boolean getIsVirtual() {
         return isVirtual;
     }
 
     public Date getSchedule() {
         return schedule;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public int getAppointmentId() {
-        return appointmentId;
     }
 
     public void setLocation(String location) {
@@ -39,16 +28,10 @@ public class Appointment {
         this.schedule = schedule;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
-    }
 
     public void setVirtual(Boolean virtual) {
         isVirtual = virtual;
     }
-
-    public void setAppointmentId(int appointmentId) {
-        this.appointmentId = appointmentId;
-    }
 }
+
 

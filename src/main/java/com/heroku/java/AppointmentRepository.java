@@ -1,6 +1,7 @@
 package com.heroku.java;
 
 import com.heroku.java.Appointment;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
@@ -15,6 +16,8 @@ import java.util.Date;
 public class AppointmentRepository {
     private final DataSource dataSource;
 
+
+    @Autowired
     public AppointmentRepository(DataSource dataSource) {
         this.dataSource = dataSource;
     }
@@ -50,10 +53,9 @@ public class AppointmentRepository {
             try (ResultSet resultSet = statement.executeQuery()) {
                 while (resultSet.next()) {
                     Appointment appointment = new Appointment();
-                    appointment.setAppointmentId(resultSet.getInt("id"));
+                    appointment.setEventId(resultSet.getInt("id"));
                     appointment.setSchedule(resultSet.getDate("schedule"));
-                    appointment.setTitle(resultSet.getString("title"));
-                    //appointment.setDate(resultSet.getTimestamp("schedule"));
+                    appointment.setName(resultSet.getString("title"));
                     appointment.setLocation(resultSet.getString("location"));
                     appointment.setVirtual(resultSet.getBoolean("isVirtual"));
 
