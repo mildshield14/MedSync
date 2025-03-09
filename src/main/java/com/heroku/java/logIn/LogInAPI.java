@@ -9,7 +9,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:5173", allowCredentials = "true")
 public class LogInAPI {
     private final LogInRepository authRepository;
 
@@ -25,7 +24,7 @@ public class LogInAPI {
         if(checkAuthentification(loginRequest.username, loginRequest.password)) {
             Cookie cookie = new Cookie("SESSIONID", generateSessionId());
             cookie.setHttpOnly(true);
-            cookie.setSecure(true);
+            cookie.setSecure(false);
             cookie.setPath("/");
             cookie.setMaxAge(30 * 60 *60); // 30 hours expiration
 
@@ -47,7 +46,7 @@ public class LogInAPI {
         if(authRepository.registerUser(loginRequest.username, loginRequest.password)) {
             Cookie cookie = new Cookie("SESSIONID", generateSessionId());
             cookie.setHttpOnly(true);
-            cookie.setSecure(true);
+            cookie.setSecure(false);
             cookie.setPath("/");
             cookie.setMaxAge(30 * 60 *60); // 30 hours expiration
 
@@ -86,15 +85,6 @@ public class LogInAPI {
         return java.util.UUID.randomUUID().toString();
     }
 
-    @RequestMapping(method = RequestMethod.OPTIONS)
-    public ResponseEntity<?> handleOptionsRequest() {
-        HttpHeaders headers = new HttpHeaders();
-        headers.add("Access-Control-Allow-Origin", "http://localhost:5173");
-        headers.add("Access-Control-Allow-Credentials", "true");
-        headers.add("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
-        headers.add("Access-Control-Allow-Headers", "Content-Type");
-        return new ResponseEntity<>(headers, HttpStatus.OK);
-    }
         public static class LoginResponse {
         private String name;
 
@@ -106,5 +96,21 @@ public class LogInAPI {
     public class LoginRequest {
         private String username;
         private String password;
+
+        public String getUsername() {
+            return username;
+        }
+
+        public void setUsername(String username) {
+            this.username = username;
+        }
+
+        public String getPassword() {
+            return password;
+        }
+
+        public void setPassword(String password) {
+            this.password = password;
+        }
     }
 }
