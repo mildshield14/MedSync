@@ -1,5 +1,5 @@
 .dashboard {
-  font-family: "Nunito Sans", sans-serif;
+  font-family: var(--font-family), sans-serif;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -8,36 +8,6 @@
     font-size: 1.75rem;
     margin-top: 3.5rem;
     margin-bottom: 1.5rem;
-  }
-
-  &_card-container {
-    display: flex;
-    gap: 1rem;
-    flex-wrap: wrap;
-    padding: 1rem;
-  }
-  &_card {
-    background-color: #f4f4f4;
-    border-radius: 8px;
-    padding: 1rem;
-    flex: 1 0 5px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-
-    .large,
-    .medium {
-      min-width: max-content;
-    }
-    .small {
-      min-width: 100%;
-    }
-
-    &-name {
-      font-size: 1.25rem;
-      margin-bottom: 0.5rem;
-    }
-    &-content {
-      margin: 0.25rem 0;
-    }
   }
 
   &_calendar{
