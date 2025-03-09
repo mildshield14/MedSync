@@ -15,20 +15,20 @@ public class LogInAPI {
         this.authRepository = authRepository;
     }
     @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestParam String username, @RequestParam String password) {
+    public ResponseEntity<String>  login(@RequestBody LoginRequest loginRequest) {
         authRepository.createTableIfNotExists();
-        if(checkAuthentification(username, password)) {
+        if(checkAuthentification(loginRequest.username, loginRequest.password)) {
             return ResponseEntity.ok("Login successful");
         }else{
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-                    .body("Login failed: Invalid credentials for user " + username);
+                    .body("Login failed: Invalid credentials for user ");
         }
 
     }
     @PostMapping("/register")
-    public ResponseEntity<String> register(@RequestParam String username, @RequestParam String password){
+    public ResponseEntity<String> register(@RequestBody LoginRequest loginRequest){
         authRepository.createTableIfNotExists();
-        if(authRepository.registerUser(username, password)) {
+        if(authRepository.registerUser(loginRequest.username, loginRequest.password)) {
             return ResponseEntity.ok("Login successful");
         }else{
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
@@ -58,8 +58,14 @@ public class LogInAPI {
     }
     public static class LoginResponse {
         private String name;
+
         public LoginResponse(String name) {
             this.name = name;
         }
+    }
+
+    public class LoginRequest {
+        private String username;
+        private String password;
     }
 }
