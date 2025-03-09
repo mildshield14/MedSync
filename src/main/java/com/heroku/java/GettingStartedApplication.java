@@ -1,5 +1,6 @@
 package com.heroku.java;
 
+import com.heroku.java.logIn.LogInRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -19,6 +20,7 @@ public class GettingStartedApplication {
     @Autowired
     public GettingStartedApplication(DataSource dataSource) {
         this.dataSource = dataSource;
+
     }
 
     @GetMapping("/")
@@ -51,5 +53,6 @@ public class GettingStartedApplication {
     public static void main(String[] args) {
 
         SpringApplication.run(GettingStartedApplication.class, args);
+
     }
 }

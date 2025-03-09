@@ -11,44 +11,58 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 
 public class LogInAPI {
+    private final LogInRepository authRepository;
 
+    @Autowired
+    public LogInAPI(LogInRepository authRepository) {
+        this.authRepository = authRepository;
+    }
     @PostMapping("/login")
     public ResponseEntity<String> login(@RequestParam String username, @RequestParam String password) {
+        authRepository.createTableIfNotExists();
         if(checkAuthentification(username, password)) {
             return ResponseEntity.ok("Login successful");
         }else{
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-                    .body("Login failed: Invalid credentials");
+                    .body("Login failed: Invalid credentials for user " + username);
         }
 
     }
-    @GetMapping("/username")
-    public ResponseEntity<LoginResponse> getLoginInfo() {
-        // Simuler un nom d'utilisateur (normalement récupéré depuis la base de données ou un token)
-        String name = "John Doe";
+    @PostMapping("/register")
+    public ResponseEntity<String> register(@RequestParam String username, @RequestParam String password){
+        authRepository.createTableIfNotExists();
+        if(authRepository.registerUser(username, password)) {
+            return ResponseEntity.ok("Login successful");
+        }else{
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body("Registration failed, please try again");
+        }
 
-        // Créer la réponse
-        LoginResponse response = new LoginResponse(name);
-
-        // Retourner la réponse avec un code 200
-        return ResponseEntity.ok(response);
     }
 
-    // Classe interne représentant la réponse JSON
+    @GetMapping("/username")
+    public ResponseEntity<LoginResponse> getLoginInfo(@RequestParam Long id) {
+        String name = authRepository.getUsernameById(id);
+        if(name.equals("User not found")){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(null);
+        }else {
+            LoginResponse response = new LoginResponse(name);
+            return ResponseEntity.ok(response);
+        }
+    }
+    public boolean checkAuthentification(String username, String password){
+        authRepository.createTableIfNotExists();
+        if(authRepository.isUserValid(username,password)){
+            return true;
+        }else{
+            return false;
+        }
+    }
     public static class LoginResponse {
         private String name;
         public LoginResponse(String name) {
             this.name = name;
-        }
-    }
-
-    public boolean checkAuthentification(String username, String password){
-        String usernameCheck = "username1";
-        String passwordCheck = "password123";
-        if(username.equalsIgnoreCase(usernameCheck) && password.equalsIgnoreCase(passwordCheck)){
-            return true;
-        }else{
-            return false;
         }
     }
 }
