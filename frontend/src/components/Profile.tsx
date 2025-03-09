@@ -43,7 +43,6 @@ const Profile: React.FC = () => {
     if (!userProfile) {
         return <div>Loading...</div>;
     }
-
     return (
         <div className="profile">
             <h2 className="profile__title">User Profile</h2>
