@@ -60,6 +60,7 @@ public class LogInRepository {
         return "User not found";
     }
 
+
     public boolean isUserValid(String username, String password) {
         String sql = "SELECT * FROM users WHERE username = ? AND password = ?";
         try (Connection connection = dataSource.getConnection();
