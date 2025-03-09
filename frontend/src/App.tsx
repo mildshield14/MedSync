@@ -66,7 +66,6 @@ function App() {
     };
 
     return (
-        <Router>
             <div className={`${size} app`} ref={ref}>
                 {/* Show the same Navbar, just pass isAuthenticated for conditional links */}
                 <Navbar isAuthenticated={isAuthenticated} onLogout={handleLogout} />
@@ -119,7 +118,6 @@ function App() {
                     />
                 </Routes>
             </div>
-        </Router>
     );
 }
 
