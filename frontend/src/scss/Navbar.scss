@@ -6,7 +6,7 @@
   align-items: center;
   background-color: var(--nav-background-color);
   padding:25px;
-  font-family: 'Nunito Sans', sans-serif;
+  font-family:var(--font-family), sans-serif;
   color: var(--nav-text-color);
 
   &__logo {
