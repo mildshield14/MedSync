@@ -4,7 +4,7 @@ MediSync provides an intuitive interface that supports patients throughout their
 
 ## Deploying the project to Heroku
 
-Using resources for this example app counts towards your usage. [Delete your app](https://devcenter.heroku.com/articles/heroku-cli-commands#heroku-apps-destroy) and [database](https://devcenter.heroku.com/articles/heroku-postgresql#removing-the-add-on) as soon as you are done experimenting to control costs.
+Using resources for this app counts towards your usage. [Delete your app](https://devcenter.heroku.com/articles/heroku-cli-commands#heroku-apps-destroy) and [database](https://devcenter.heroku.com/articles/heroku-postgresql#removing-the-add-on) as soon as you are done experimenting to control costs.
 
 ### Deploy on Heroku [Cedar](https://devcenter.heroku.com/articles/generations#cedar)
 
