@@ -28,16 +28,31 @@ public class LogInAPI {
         }
 
     }
+    @PostMapping("/register")
+    public ResponseEntity<String> register(@RequestParam String username, @RequestParam String password){
+        authRepository.createTableIfNotExists();
+        if(authRepository.registerUser(username, password)) {
+            return ResponseEntity.ok("Login successful");
+        }else{
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body("Registration failed, please try again");
+        }
+
+    }
 
     @GetMapping("/username")
-    public ResponseEntity<LoginResponse> getLoginInfo() {
-        String name = "John Doe";
-
-        LoginResponse response = new LoginResponse(name);
-
-        return ResponseEntity.ok(response);
+    public ResponseEntity<LoginResponse> getLoginInfo(@RequestParam Long id) {
+        String name = authRepository.getUsernameById(id);
+        if(name.equals("User not found")){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(null);
+        }else {
+            LoginResponse response = new LoginResponse(name);
+            return ResponseEntity.ok(response);
+        }
     }
     public boolean checkAuthentification(String username, String password){
+        authRepository.createTableIfNotExists();
         if(authRepository.isUserValid(username,password)){
             return true;
         }else{
