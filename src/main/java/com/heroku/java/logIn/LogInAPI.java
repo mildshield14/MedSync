@@ -88,6 +88,27 @@ public class LogInAPI {
             return ResponseEntity.ok(response);
         }
     }
+    @CrossOrigin(origins = {"http://localhost:5173", "https://stately-crisp-851c78.netlify.app"}, allowCredentials = "true")
+    @RequestMapping(value = "/login", method = RequestMethod.OPTIONS)
+    public ResponseEntity<?> handlePreflightLogin(HttpServletResponse response) {
+        response.setHeader("Access-Control-Allow-Origin", "http://localhost:5173");
+        response.setHeader("Access-Control-Allow-Credentials", "true");
+        response.setHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS");
+        response.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
+
+        return ResponseEntity.ok().build();
+    }
+
+    @CrossOrigin(origins = {"http://localhost:5173", "https://stately-crisp-851c78.netlify.app"}, allowCredentials = "true")
+    @RequestMapping(value = "/register", method = RequestMethod.OPTIONS)
+    public ResponseEntity<?> handlePreflightRegister(HttpServletResponse response) {
+        response.setHeader("Access-Control-Allow-Origin", "http://localhost:5173");
+        response.setHeader("Access-Control-Allow-Credentials", "true");
+        response.setHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS");
+        response.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
+
+        return ResponseEntity.ok().build();
+    }
     public boolean checkAuthentification(String username, String password){
         authRepository.createTableIfNotExists();
         if(authRepository.isUserValid(username,password)){
