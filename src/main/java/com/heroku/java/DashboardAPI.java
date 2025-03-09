@@ -28,13 +28,13 @@ public class DashboardAPI {
     public UsersProfiles usersProfiles;
     @GetMapping("/events/{userId}")
     public ResponseEntity<?> getEvents(@PathVariable Long userId) throws SQLException {
-
-        if (usersProfiles.UserProfileFromId(userId) == null) {
+        UserProfile user = usersProfiles.UserProfileFromId(userId);
+        if (user == null){
             Map<String, Object> errorResponse = new HashMap<>();
             errorResponse.put("error", "User not found");
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("No user found.");
         }
-        List<Events> events = usersProfiles.UserProfileFromId(userId).eventsRepository.getEventsByDate(new Date());
+        List<Events> events = user.eventsRepository.getEventsByDate(new Date());
 
         return ResponseEntity.ok(events);
     }
@@ -42,7 +42,8 @@ public class DashboardAPI {
     @GetMapping("/events/appointment/{userId}")
     public ResponseEntity<?> getAppointments(@PathVariable Long userId) throws SQLException {
 
-        if (usersProfiles.UserProfileFromId(userId) == null) {
+        UserProfile user = usersProfiles.UserProfileFromId(userId);
+        if (user == null){
             Map<String, Object> errorResponse = new HashMap<>();
             errorResponse.put("error", "User not found");
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("No user found.");
@@ -55,7 +56,8 @@ public class DashboardAPI {
     @GetMapping("/events/medicine/{userId}")
     public ResponseEntity<?> getMedicines(@PathVariable Long userId) throws SQLException {
 
-        if (usersProfiles.UserProfileFromId(userId) == null) {
+        UserProfile user = usersProfiles.UserProfileFromId(userId);
+        if (user == null){
             Map<String, Object> errorResponse = new HashMap<>();
             errorResponse.put("error", "User not found");
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("No user found.");
@@ -69,7 +71,8 @@ public class DashboardAPI {
     @GetMapping("/events/medicine/byDate/{userId}")
     public ResponseEntity<?> getMedicinesByDate(@PathVariable Long userId, Date schedule) throws SQLException {
 
-        if (usersProfiles.UserProfileFromId(userId) == null) {
+        UserProfile user = usersProfiles.UserProfileFromId(userId);
+        if (user == null){
             Map<String, Object> errorResponse = new HashMap<>();
             errorResponse.put("error", "User not found");
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("No user found.");
@@ -83,7 +86,8 @@ public class DashboardAPI {
     @GetMapping("/events/appointments/byDate/{userId}")
     public ResponseEntity<?> getAppointmentsByDate(@PathVariable Long userId, Date schedule) throws SQLException {
 
-        if (usersProfiles.UserProfileFromId(userId) == null) {
+        UserProfile user = usersProfiles.UserProfileFromId(userId);
+        if (user == null){
             Map<String, Object> errorResponse = new HashMap<>();
             errorResponse.put("error", "User not found");
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("No user found.");
