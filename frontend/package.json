@@ -19,6 +19,7 @@
     "@react-three/fiber": "^8.18.0",
     "@types/three": "^0.174.0",
     "axios": "^1.8.2",
+    "crypto-js": "^4.2.0",
     "leva": "^0.10.0",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
