@@ -8,8 +8,7 @@ interface DashboardProps {
     username: string | null;
 }
 
-const Dashboard: React.FC<DashboardProps> =  ({username}) => {
-    console.log(username);
+const Dashboard: React.FC<DashboardProps> =  () => {
   return (
     <div className="dashboard">
       <h2 className="dashboard_title">Patient Overview</h2>

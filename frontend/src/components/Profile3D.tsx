@@ -1,39 +1,32 @@
-import React, { useRef, useEffect } from 'react';
-// import { useThree } from '@react-three/fiber';
-import { OrbitControls } from '@react-three/drei';
+import React from "react";
+import { Canvas } from "@react-three/fiber";
+import { OrbitControls, useGLTF } from "@react-three/drei";
 
-// Extend JSX.IntrinsicElements to include custom elements
-declare global {
-    namespace JSX {
-        interface IntrinsicElements {
-            primitive: any;
-            directionalLight: any;
-            hemisphereLight: any;
-            pointLight: any;
-        }
-    }
-}
-
-const Profile3D: React.FC = () => {
-    // const { scene } = useThree();
-    const controls = useRef(null);
-
-    useEffect(() => {
-        // Load your 3D model or perform other setup here
-    }, []);
+const Avatar3D: React.FC = () => {
+    const { scene } = useGLTF("/models/skeleton.glb");
 
     return (
-        <>
-            {/*<primitive*/}
-            {/*    object={scene}*/}
-            {/*    position={[0, -2, 0]}*/}
-            {/*/>*/}
-            {/*<directionalLight position={[10, 10, 10]} intensity={1} />*/}
-            {/*<hemisphereLight intensity={0.5} />*/}
-            {/*<pointLight position={[5, 5, 5]} intensity={1} />*/}
-            <OrbitControls ref={controls} />
-        </>
+        <primitive
+            object={scene}
+            scale={[2, 2, 2]}
+            position={[0, -2, 0]}
+        />
     );
 };
 
-export default Profile3D;
+const AvatarViewer: React.FC = () => {
+    return (
+        <Canvas>
+            {/* Lighting */}
+            <directionalLight position={[10, 10, 10]} intensity={1}/>
+            <hemisphereLight intensity={0.5}/>
+            <pointLight position={[5, 5, 5]} intensity={1}/>
+            {/* 3D Model */}
+            <Avatar3D/>
+            {/* Controls */}
+            <OrbitControls enableZoom={false}/>
+        </Canvas>
+    );
+};
+
+export default AvatarViewer;
