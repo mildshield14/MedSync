@@ -9,12 +9,22 @@ public class UsersProfiles {
     LogInRepository logInRepository;
     public UserProfile UserProfileFromId(Long userId) {
         int i = 0;
+        String usernameI = "";
+        String usernameR = "";
+
+        try {
+            usernameI = users.get(i).getUsername();
+            usernameR = logInRepository.getUsernameById(userId);
+        } catch(NullPointerException e) {
+
+        }
+
         for (i = 0; i < users.size(); i++) {
-            if (users.get(i).getUsername() == logInRepository.getUsernameById(userId)) {
+            if (usernameI == usernameR) {
                 break;
             }
         }
-        return users.get(i);
+        return null;
     }
     public UserProfile getUserProfile(Long Id){
         UserProfile user = UserProfileFromId(Id);
