@@ -17,6 +17,8 @@ import Dashboard from "./components/Dashboard";
 import Navbar from "./components/Navbar";
 import Profile from "./components/Profile.tsx";
 
+import Scene from "./Scene.jsx";
+
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [username, setUsername] = useState<string | null>(null);
@@ -78,6 +80,8 @@ function App() {
       {/* Show the same Navbar, just pass isAuthenticated for conditional links */}
       <Navbar isAuthenticated={isAuthenticated} onLogout={handleLogout} />
 
+
+
       <Routes>
         {/* Login Route */}
         <Route
@@ -86,6 +90,12 @@ function App() {
             <Login onLogin={handleLogin} isAuthenticated={isAuthenticated} />
           }
         />
+        <Route
+          path="/chatbot"
+          element={
+            <Scene />
+          }
+        ></Route>
 
         <Route
           path="/profile"
