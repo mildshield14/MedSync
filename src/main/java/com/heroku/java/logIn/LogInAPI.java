@@ -1,5 +1,7 @@
 package com.heroku.java.logIn;
 
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,9 +17,16 @@ public class LogInAPI {
         this.authRepository = authRepository;
     }
     @PostMapping("/login")
-    public ResponseEntity<String>  login(@RequestBody LoginRequest loginRequest) {
+    public ResponseEntity<String>  login(@RequestBody LoginRequest loginRequest, HttpServletResponse response) {
         authRepository.createTableIfNotExists();
         if(checkAuthentification(loginRequest.username, loginRequest.password)) {
+            Cookie cookie = new Cookie("SESSIONID", generateSessionId());
+            cookie.setHttpOnly(true);
+            cookie.setSecure(true);
+            cookie.setPath("/");
+            cookie.setMaxAge(30 * 60 *60); // 30 hours expiration
+
+            response.addCookie(cookie);
             return ResponseEntity.ok("Login successful");
         }else{
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
@@ -25,10 +34,19 @@ public class LogInAPI {
         }
 
     }
+
     @PostMapping("/register")
-    public ResponseEntity<String> register(@RequestBody LoginRequest loginRequest){
+    public ResponseEntity<String> register(@RequestBody LoginRequest loginRequest, HttpServletResponse response){
         authRepository.createTableIfNotExists();
         if(authRepository.registerUser(loginRequest.username, loginRequest.password)) {
+            Cookie cookie = new Cookie("SESSIONID", generateSessionId());
+            cookie.setHttpOnly(true);
+            cookie.setSecure(true);
+            cookie.setPath("/");
+            cookie.setMaxAge(30 * 60 *60); // 30 hours expiration
+
+            // ✅ Attach the cookie to the response
+            response.addCookie(cookie);
             return ResponseEntity.ok("Login successful");
         }else{
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
@@ -36,6 +54,7 @@ public class LogInAPI {
         }
 
     }
+
 
     @GetMapping("/username")
     public ResponseEntity<LoginResponse> getLoginInfo(@RequestParam Long id) {
@@ -55,6 +74,10 @@ public class LogInAPI {
         }else{
             return false;
         }
+    }
+    private String generateSessionId() {
+        // Generate a random session ID (in real life, use a UUID)
+        return java.util.UUID.randomUUID().toString();
     }
     public static class LoginResponse {
         private String name;
