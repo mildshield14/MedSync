@@ -70,7 +70,7 @@ public class DashboardAPI {
     }
 
 
-    @GetMapping("/events/medicine/{userId}")
+    @GetMapping("/events/medicine/byDate/{userId}")
     public ResponseEntity<?> getMedicinesByDate(@PathVariable Long userId, Date schedule) throws SQLException {
         UserProfile user = usersProfiles.UserProfileFromId(userId);
 
@@ -85,7 +85,7 @@ public class DashboardAPI {
     }
 
 
-    @GetMapping("/events/appointments/{userId}")
+    @GetMapping("/events/appointments/byDate/{userId}")
     public ResponseEntity<?> getAppointmentsByDate(@PathVariable Long userId, Date schedule) throws SQLException {
         UserProfile user = usersProfiles.UserProfileFromId(userId);
 
