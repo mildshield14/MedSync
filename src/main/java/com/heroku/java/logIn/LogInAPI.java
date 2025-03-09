@@ -17,16 +17,24 @@ public class LogInAPI {
         this.authRepository = authRepository;
     }
     @PostMapping("/login")
-    public ResponseEntity<String>  login(@RequestBody LoginRequest loginRequest, HttpServletResponse response) {
+    public ResponseEntity<String>  login(@RequestBody LoginRequest loginRequest, HttpServletResponse response, @RequestHeader(value = "Origin", required = false) String origin) {
         authRepository.createTableIfNotExists();
-        response.setHeader("Access-Control-Allow-Origin", "http://localhost:5173");
-        response.setHeader("Access-Control-Allow-Credentials", "true");
+        if (origin != null && (origin.equals("http://localhost:5173") || origin.equals("https://stately-crisp-851c78.netlify.app"))) {
+            response.setHeader("Access-Control-Allow-Origin", origin);
+            response.setHeader("Access-Control-Allow-Credentials", "true");
+            response.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
+            response.setHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS");
+        }
         if(true){//checkAuthentification(loginRequest.username, loginRequest.password)) {
-            Cookie cookie = new Cookie("SESSIONID", generateSessionId());
+            String sessionId = generateSessionId();
+
+            Cookie cookie = new Cookie("SESSIONID",sessionId);
             cookie.setHttpOnly(true);
-            cookie.setSecure(false);
+            boolean isLocal = origin != null && origin.equals("http://localhost:5173");
+            cookie.setSecure(!isLocal);
             cookie.setPath("/");
-            cookie.setMaxAge(30 * 60 *60); // 30 hours expiration
+            cookie.setMaxAge(108000); // 30 hours expiration
+            cookie.setAttribute("SameSite", "None");
 
             response.addCookie(cookie);
 
@@ -39,19 +47,27 @@ public class LogInAPI {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<String> register(@RequestBody LoginRequest loginRequest, HttpServletResponse response){
+    public ResponseEntity<String> register(@RequestBody LoginRequest loginRequest, HttpServletResponse response,  @RequestHeader(value = "Origin", required = false) String origin){
         authRepository.createTableIfNotExists();
-        response.setHeader("Access-Control-Allow-Origin", "http://localhost:5173");
-        response.setHeader("Access-Control-Allow-Credentials", "true");
-        if(authRepository.registerUser(loginRequest.username, loginRequest.password)) {
-            Cookie cookie = new Cookie("SESSIONID", generateSessionId());
+        if (origin != null && (origin.equals("http://localhost:5173") || origin.equals("https://stately-crisp-851c78.netlify.app"))) {
+            response.setHeader("Access-Control-Allow-Origin", origin);
+            response.setHeader("Access-Control-Allow-Credentials", "true");
+            response.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
+            response.setHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS");
+        }
+       if(authRepository.registerUser(loginRequest.username, loginRequest.password)) {
+           String sessionId = generateSessionId();
+            Cookie cookie = new Cookie("SESSIONID",sessionId );
             cookie.setHttpOnly(true);
-            cookie.setSecure(false);
+           boolean isLocal = origin != null && origin.equals("http://localhost:5173");
+           cookie.setSecure(!isLocal);
             cookie.setPath("/");
-            cookie.setMaxAge(30 * 60 *60); // 30 hours expiration
+            cookie.setMaxAge(108000); // 30 hours expiration
+            cookie.setAttribute("SameSite", "None");
 
             // ✅ Attach the cookie to the response
             response.addCookie(cookie);
+
             return ResponseEntity.ok("Login successful");
         }else{
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
@@ -84,27 +100,7 @@ public class LogInAPI {
         // Generate a random session ID (in real life, use a UUID)
         return java.util.UUID.randomUUID().toString();
     }
-    @RequestMapping(value = "/login", method = RequestMethod.OPTIONS)
-    public ResponseEntity<?> handlePreflightLogin() {
-        HttpHeaders headers = new HttpHeaders();
-        headers.add("Access-Control-Allow-Origin", "http://localhost:5173"); // Change to frontend URL in production
-        headers.add("Access-Control-Allow-Credentials", "true");
-        headers.add("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
-        headers.add("Access-Control-Allow-Headers", "Content-Type, Authorization");
-
-        return new ResponseEntity<>(headers, HttpStatus.OK);
-    }
-    @RequestMapping(value = "/register", method = RequestMethod.OPTIONS)
-    public ResponseEntity<?> handlePreflightRegister() {
-        HttpHeaders headers = new HttpHeaders();
-        headers.add("Access-Control-Allow-Origin", "http://localhost:5173"); // Change to frontend URL in production
-        headers.add("Access-Control-Allow-Credentials", "true");
-        headers.add("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
-        headers.add("Access-Control-Allow-Headers", "Content-Type, Authorization");
-
-        return new ResponseEntity<>(headers, HttpStatus.OK);
-    }
-        public static class LoginResponse {
+    public static class LoginResponse {
         private String name;
 
         public LoginResponse(String name) {
