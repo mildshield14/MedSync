@@ -1,0 +1,39 @@
+@import "globals.scss";
+
+.form {
+  display: flex;
+  flex-direction: column;
+  margin: 10px;
+  align-items: center;
+  font-family: var(--font-family), sans-serif;
+  padding:2.5rem;
+
+  &__elem {
+    padding: 1rem;
+    border-radius: 8px;
+    border: 1px var(--border-color-form) solid;
+    margin-bottom: 10px;
+    width: 20rem;
+
+    &__pwd{
+      width: 89%;
+      margin-right: 10px;
+      border: 0;
+    }
+
+    &__submit-button {
+      width: 5rem;
+      padding: 10px;
+      margin-top: 15px;
+      font-size: 1rem;
+    }
+  }
+  &__title {
+    padding: 15px;
+    font-size: 1.3rem;
+  }
+  &__error {
+    color: red;
+    padding: 15px;
+  }
+}
