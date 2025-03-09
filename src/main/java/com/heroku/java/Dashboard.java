@@ -1,26 +1,32 @@
+package com.heroku.java;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.heroku.java.Appointment;
+import com.heroku.java.Medicine;
+import com.heroku.java.UserProfile;
+
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class Dashboard {
-    Profile user;
-    void sendEvents(Profile user) {
+    UserProfile user;
+    void sendEvents(UserProfile user) {
         ObjectMapper Events = new ObjectMapper();
 
         try {
             Map<String, Object> jsonData = new HashMap<>();
 
-            ArrayList<Appointement> userAppointements = user.getAppointements();
-            ArrayList<Medicine> userMedicines = user.getMedicines();
+            List<Appointment> userAppointments = user.getAppointements();
+            List<Medicine> userMedicines = user.getMedicines();
 
             for (int a = 0; a < user.getAppointements().size(); a++) {
-                jsonData.put("title", userAppointements.get(a).getTitle());
-                jsonData.put("date", userAppointements.get(a).getSchedule());
-                jsonData.put("location", userAppointements.get(a).getLocation());
-                jsonData.put("isVirtual", userAppointements.get(a).getIsVirtual());
+                jsonData.put("title", userAppointments.get(a).getTitle());
+                jsonData.put("date", userAppointments.get(a).getSchedule());
+                jsonData.put("location", userAppointments.get(a).getLocation());
+                jsonData.put("isVirtual", userAppointments.get(a).getIsVirtual());
             }
 
             for (int m = 0; m < user.getMedicines().size(); m++) {
@@ -39,7 +45,7 @@ public class Dashboard {
         }
     }
 
-    void sendEventsBy(Profile user, String filter) {
+    void sendEventsBy(UserProfile user, String filter) {
         ObjectMapper filteredEvents = new ObjectMapper();
 
         try {
@@ -48,18 +54,18 @@ public class Dashboard {
             switch (filter) {
 
                 case "Appointements":
-                    ArrayList<Appointement> userAppointements = user.getAppointements();
+                    List<Appointment> userAppointments = user.getAppointements();
 
                     for (int a = 0; a < user.getAppointements().size(); a++) {
-                        jsonData.put("title", userAppointements.get(a).getTitle());
-                        jsonData.put("date", userAppointements.get(a).getSchedule());
-                        jsonData.put("location", userAppointements.get(a).getLocation());
-                        jsonData.put("isVirtual", userAppointements.get(a).getIsVirtual());
+                        jsonData.put("title", userAppointments.get(a).getTitle());
+                        jsonData.put("date", userAppointments.get(a).getSchedule());
+                        jsonData.put("location", userAppointments.get(a).getLocation());
+                        jsonData.put("isVirtual", userAppointments.get(a).getIsVirtual());
                     }
                     break;
 
                 case "Medications":
-                    ArrayList<Medicine> userMedicines = user.getMedicines();
+                    List<Medicine> userMedicines = user.getMedicines();
                     for (int m = 0; m < user.getMedicines().size(); m++) {
                         jsonData.put("id", userMedicines.get(m).getIdMedicine());
                         jsonData.put("title", userMedicines.get(m).getName());

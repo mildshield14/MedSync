@@ -1,5 +1,6 @@
 package com.heroku.java.logIn;
 
+import com.heroku.java.UserProfile;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,10 +9,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.sql.SQLException;
+
 @RestController
 public class LogInAPI {
     private final LogInRepository authRepository;
-
+    private UserProfile userProfile;
     @Autowired
     public LogInAPI(LogInRepository authRepository) {
         this.authRepository = authRepository;
@@ -47,7 +50,10 @@ public class LogInAPI {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<String> register(@RequestBody LoginRequest loginRequest, HttpServletResponse response,  @RequestHeader(value = "Origin", required = false) String origin){
+
+    public ResponseEntity<String> register(@RequestBody LoginRequest loginRequest, HttpServletResponse response,
+                                           @RequestHeader(value = "Origin", required = false) String origin,
+                                           @RequestParam Long id){
         authRepository.createTableIfNotExists();
         if (origin != null && (origin.equals("http://localhost:5173") || origin.equals("https://stately-crisp-851c78.netlify.app"))) {
             response.setHeader("Access-Control-Allow-Origin", origin);
@@ -55,18 +61,25 @@ public class LogInAPI {
             response.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization, Accept");
             response.setHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS");
         }
-       if(authRepository.registerUser(loginRequest.username, loginRequest.password)) {
-           String sessionId = generateSessionId();
+
+        if(authRepository.registerUser(loginRequest.username, loginRequest.password)) {
+            String sessionId = generateSessionId();
             Cookie cookie = new Cookie("SESSIONID",sessionId );
             cookie.setHttpOnly(true);
-           boolean isLocal = origin != null && origin.equals("http://localhost:5173");
-           cookie.setSecure(!isLocal);
+            boolean isLocal = origin != null && origin.equals("http://localhost:5173");
+            cookie.setSecure(!isLocal);
             cookie.setPath("/");
             cookie.setMaxAge(108000); // 30 hours expiration
             cookie.setAttribute("SameSite", "None");
 
             // ✅ Attach the cookie to the response
             response.addCookie(cookie);
+
+            try {
+                userProfile.createProfile(id);
+            } catch (SQLException s) {
+                s.printStackTrace();
+            }
 
             return ResponseEntity.ok("Login successful");
         }else{
@@ -78,7 +91,7 @@ public class LogInAPI {
 
 
     @GetMapping("/username")
-    public ResponseEntity<LoginResponse> getLoginInfo(@RequestParam Long id) {
+    public ResponseEntity<LoginResponse> getLoginInfo(Long id) {
         String name = authRepository.getUsernameById(id);
         if(name.equals("User not found")){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
