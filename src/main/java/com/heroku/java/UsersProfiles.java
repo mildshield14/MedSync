@@ -9,8 +9,8 @@ public class UsersProfiles {
     LogInRepository logInRepository;
     public UserProfile UserProfileFromId(Long userId) {
         int i = 0;
-        String usernameI =  users.get(i).getUsername();
-        String usernameR = logInRepository.getUsernameById(userId);
+        String usernameI ;
+        String usernameR ;
 
 
         for (i = 0; i < users.size(); i++) {
