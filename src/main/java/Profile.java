@@ -1,29 +1,47 @@
+import com.heroku.java.logIn.LogInRepository;
+
+import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 public class Profile {
-    String username;
-    int id;
-    String locationName;
+    AppointementsRepository appointementsRepository;
+    MedicineRepository medicineRepository;
+    LogInRepository logInRepository;
 
-    ArrayList<Appointement> appointements;
-    ArrayList<Medicine> medicines;
+    Long userId ; ///////////////
+    String username =
+            logInRepository.getUsernameById(userId);
+
+    String locationName =
+            logInRepository.getLocationById(userId);
+
+    List<Appointment> appointments =
+            appointementsRepository.getAppointmentsByDate(new Date());
+    List<Medicine> medicines =
+            medicineRepository.getMedicinesByDate(new Date());
+
+    public Profile() throws SQLException {
+    }
+
     public String getUsername(){
         return username;
     }
 
-    public int getId() {
-        return id;
+    public Long getUserId() {
+        return userId;
     }
 
     public String getLocationName(){
         return locationName;
     }
 
-    public ArrayList<Appointement> getAppointements() {
-        return appointements;
+    public List<Appointment> getAppointements() {
+        return appointments;
     }
 
-    public ArrayList<Medicine> getMedicines() {
+    public List<Medicine> getMedicines() {
         return medicines;
     }
 
@@ -31,12 +49,12 @@ public class Profile {
         this.username = username;
     }
 
-    void setAppointements(ArrayList<Appointement> appointements) {
-        this.appointements = appointements;
+    void setAppointements(ArrayList<Appointment> appointments) {
+        this.appointments = appointments;
     }
 
-    void setId(int id) {
-        this.id = id;
+    void setUserId(Long userId) {
+        this.userId = userId;
     }
 
     void setLocationName(String locationName) {

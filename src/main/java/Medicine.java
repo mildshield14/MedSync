@@ -22,5 +22,19 @@ public class Medicine {
         return dose;
     }
 
+    public void setSchedule(Date schedule) {
+        this.schedule = schedule;
+    }
 
+    public void setIdMedicine(int idMedicine) {
+        this.idMedicine = idMedicine;
+    }
+
+    public void setDose(int dose) {
+        this.dose = dose;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 }
