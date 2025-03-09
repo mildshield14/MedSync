@@ -1,6 +1,5 @@
 import "./scss/globals.scss";
 import {
-    BrowserRouter as Router,
     Route,
     Routes,
     useNavigate,
@@ -20,14 +19,11 @@ function App() {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
     const [username, setUsername] = useState<string | null>(null);
 
-    // Check localStorage on first load
     useEffect(() => {
         const storedUsername = localStorage.getItem("userConnected");
         if (storedUsername) {
             setIsAuthenticated(true);
             setUsername(storedUsername);
-        } else {
-            setIsAuthenticated(false); // Ensure isAuthenticated is false if no user is logged in
         }
     }, []);
 
@@ -66,58 +62,58 @@ function App() {
     };
 
     return (
-            <div className={`${size} app`} ref={ref}>
-                {/* Show the same Navbar, just pass isAuthenticated for conditional links */}
-                <Navbar isAuthenticated={isAuthenticated} onLogout={handleLogout} />
+        <div className={`${size} app`} ref={ref}>
+            {/* Show the same Navbar, just pass isAuthenticated for conditional links */}
+            <Navbar isAuthenticated={isAuthenticated} onLogout={handleLogout} />
 
-                <Routes>
-                    {/* Login Route */}
-                    <Route
-                        path="/login"
-                        element={
+            <Routes>
+                {/* Login Route */}
+                <Route
+                    path="/login"
+                    element={
+                        <Login onLogin={handleLogin} isAuthenticated={isAuthenticated} />
+                    }
+                />
+
+                {/* Profile Route */}
+                <Route
+                    path="/profile"
+                    element={
+                        <ProtectedRoute isAuthenticated={isAuthenticated}>
+                            <Profile />
+                        </ProtectedRoute>
+                    }
+                />
+
+                {/* Fitbit Callback Route */}
+                <Route path="/fitbit-callback" element={<FitbitCallback />} />
+
+                {/* Chatbot Route */}
+                <Route path="/chatbot" element={<Scene />} />
+
+                {/* Protected Dashboard */}
+                <Route
+                    path="/home"
+                    element={
+                        <ProtectedRoute isAuthenticated={isAuthenticated}>
+                            <Dashboard username={username} />
+                        </ProtectedRoute>
+                    }
+                />
+
+                {/* Fallback: if logged in, go Dashboard; else go Login */}
+                <Route
+                    path="*"
+                    element={
+                        isAuthenticated ? (
+                            <Dashboard username={username} />
+                        ) : (
                             <Login onLogin={handleLogin} isAuthenticated={isAuthenticated} />
-                        }
-                    />
-
-                    {/* Profile Route */}
-                    <Route
-                        path="/profile"
-                        element={
-                            <ProtectedRoute isAuthenticated={isAuthenticated}>
-                                <Profile />
-                            </ProtectedRoute>
-                        }
-                    />
-
-                    {/* Fitbit Callback Route */}
-                    <Route path="/fitbit-callback" element={<FitbitCallback />} />
-
-                    {/* Chatbot Route */}
-                    <Route path="/chatbot" element={<Scene />} />
-
-                    {/* Protected Dashboard */}
-                    <Route
-                        path="/home"
-                        element={
-                            <ProtectedRoute isAuthenticated={isAuthenticated}>
-                                <Dashboard username={username} />
-                            </ProtectedRoute>
-                        }
-                    />
-
-                    {/* Fallback: if logged in, go Dashboard; else go Login */}
-                    <Route
-                        path="*"
-                        element={
-                            isAuthenticated ? (
-                                <Dashboard username={username} />
-                            ) : (
-                                <Login onLogin={handleLogin} isAuthenticated={isAuthenticated} />
-                            )
-                        }
-                    />
-                </Routes>
-            </div>
+                        )
+                    }
+                />
+            </Routes>
+        </div>
     );
 }
 
