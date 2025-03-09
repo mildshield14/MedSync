@@ -1,11 +1,17 @@
 package com.heroku.java.watchData;
 
+import jakarta.websocket.server.PathParam;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+
+import static java.time.LocalDate.now;
 
 @RestController
 public class HealthAPI {
@@ -46,14 +52,20 @@ public class HealthAPI {
         return vo2Max;
     }
 
-    @GetMapping("/heartRate")
+    @GetMapping("/heartRate/{numbers}")
     //https://dev.fitbit.com/build/reference/web-api/heartrate-timeseries/get-heartrate-timeseries-by-date/
-    public HeartRateData getHeartRate() {
+    public ResponseEntity<HeartRateData[]> getHeartRate(@PathVariable() Optional<Integer> numbers) {
         // Hardcoded data based on your JSON
-        HeartRateData heartRateData = new HeartRateData();
-        heartRateData.setDateTime("2019-05-08");
-        heartRateData.setRestingHeartRate(76);
-        return heartRateData;
+        int finalNumber = numbers.orElse(1);
+        HeartRateData[] heartRateData = new HeartRateData[finalNumber];
+
+        for (int i = 0; i < finalNumber; i++) {
+            heartRateData[i] = new HeartRateData();
+            heartRateData[i].setDateTime(String.valueOf(now().minusDays(i)));
+            heartRateData[i].setRestingHeartRate(76%50 +70);
+        }
+;
+        return ResponseEntity.ok(heartRateData);
     }
 
     @GetMapping("/heartRateVariability")
