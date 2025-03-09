@@ -1,0 +1,167 @@
+@import "globals.scss";
+//inspired by https://www.geeksforgeeks.org/how-to-design-a-simple-calendar-using-javascript/
+
+.calendar-container {
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.12);
+  flex-direction: column;
+  align-items: center;
+  display: flex;
+}
+
+.calendar-navigation {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  margin-top: 20px;
+}
+
+.calendar-navigation-span {
+  height: 38px;
+  width: 38px;
+  margin: 0 1px;
+  cursor: pointer;
+  text-align: center;
+  line-height: 38px;
+  border-radius: 50%;
+  user-select: none;
+  color: #aeabab;
+  font-size: 1.9rem;
+}
+
+.calendar-navigation span:last-child {
+  margin-right: -10px;
+}
+
+.calendar-navigation span:hover {
+  background: #f2f2f2;
+}
+
+.calendar-current-date {
+  font-weight: 500;
+  font-size: 1.45rem;
+}
+
+.calendar-body {
+  padding: 20px;
+}
+
+.calendar-body ul {
+  list-style: none;
+  flex-wrap: wrap;
+  display: flex;
+  text-align: center;
+}
+
+.calendar-body .calendar-dates {
+  margin-bottom: 20px;
+}
+
+.calendar-body li {
+  width: calc(100% / 7);
+  font-size: 1.07rem;
+  color: #414141;
+}
+
+.calendar-body .calendar-weekdays li {
+  cursor: default;
+  font-weight: 500;
+}
+
+.calendar-body .calendar-dates li {
+  margin-top: 20px;
+  margin-bottom: 20px;
+  position: relative;
+  z-index: 1;
+  cursor: pointer;
+}
+
+.calendar-dates li.inactive {
+  color: #aaa;
+}
+
+.calendar-dates li.active {
+  color: #fff;
+}
+
+.calendar-dates li::before {
+  position: absolute;
+  content: "";
+  z-index: -1;
+  top: 50%;
+  left: 50%;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.calendar-dates li.active::before {
+  background: var(--secondary-color);
+}
+
+.calendar-dates li:not(.active):hover::before {
+  background: #e4e1e1;
+}
+
+.calendar-dates li .event-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+}
+
+.calendar-dates li .event-dots {
+  display: flex;
+  flex-direction: row;
+  gap:2px;
+  align-items: center;
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.calendar-dates li .event-dot {
+  margin: 2px 0;
+}
+
+.calendar-dates li .event-dot.appointment {
+  background-color: var(--red-color);
+}
+
+.calendar-dates li .event-dot.medication {
+  background-color: var(--secondary-color);
+}
+
+.event-popup {
+  position: absolute; // or fixed, depending on your approach
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 1rem;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  z-index: 9999;
+  background-color: var(--popup-background-color);
+
+  .small & {
+    left: 0 !important;
+  }
+}
+
+.event-popup{
+  & h3  {
+  margin: 15px 0;
+}
+
+  &__icon{
+    margin-right: 8px;
+  }
+
+&__item {
+  margin-bottom: 15px;
+}
+
+  &__button {
+    width: fit-content;
+  }
+}

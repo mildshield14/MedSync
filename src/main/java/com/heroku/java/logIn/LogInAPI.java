@@ -36,6 +36,7 @@ public class LogInAPI {
     }
 
     @PostMapping("/register")
+
     public ResponseEntity<String> register(@RequestBody LoginRequest loginRequest, HttpServletResponse response){
         authRepository.createTableIfNotExists();
         if(authRepository.registerUser(loginRequest.username, loginRequest.password)) {
@@ -47,6 +48,7 @@ public class LogInAPI {
 
             // ✅ Attach the cookie to the response
             response.addCookie(cookie);
+
             return ResponseEntity.ok("Login successful");
         }else{
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)

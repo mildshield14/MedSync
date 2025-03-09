@@ -1,0 +1,38 @@
+@import "globals.scss";
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: var(--nav-background-color);
+  padding:25px;
+  font-family: 'Nunito Sans', sans-serif;
+  color: var(--nav-text-color);
+
+  &__logo {
+    font-size: 1.5rem;
+    font-weight: bold;
+  }
+
+  &__links {
+    list-style: none;
+    display: flex;
+    li {
+      margin-left: 1rem;
+    }
+    a {
+      text-decoration: none;
+      color: var(--nav-text-color);
+      &:hover {
+        color: var(--link-hover-color);
+      }
+    }
+
+    &-name{
+      margin-left:5px;
+      .small & {
+        display: none;
+      }
+    }
+  }
+}
