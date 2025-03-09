@@ -22,7 +22,7 @@ public class LogInAPI {
         if (origin != null && (origin.equals("http://localhost:5173") || origin.equals("https://stately-crisp-851c78.netlify.app"))) {
             response.setHeader("Access-Control-Allow-Origin", origin);
             response.setHeader("Access-Control-Allow-Credentials", "true");
-            response.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
+            response.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization, Accept");
             response.setHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS");
         }
         if(true){//checkAuthentification(loginRequest.username, loginRequest.password)) {
@@ -52,7 +52,7 @@ public class LogInAPI {
         if (origin != null && (origin.equals("http://localhost:5173") || origin.equals("https://stately-crisp-851c78.netlify.app"))) {
             response.setHeader("Access-Control-Allow-Origin", origin);
             response.setHeader("Access-Control-Allow-Credentials", "true");
-            response.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
+            response.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization, Accept");
             response.setHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS");
         }
        if(authRepository.registerUser(loginRequest.username, loginRequest.password)) {
@@ -105,7 +105,7 @@ public class LogInAPI {
         response.setHeader("Access-Control-Allow-Origin", "http://localhost:5173");
         response.setHeader("Access-Control-Allow-Credentials", "true");
         response.setHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS");
-        response.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
+        response.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization, Accept");
 
         return ResponseEntity.ok().build();
     }
