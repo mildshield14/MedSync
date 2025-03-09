@@ -16,7 +16,7 @@ import static java.time.LocalDate.now;
 
 @RestController
 @RequestMapping("/dashboard")
-public class DashboardController {
+public class DashboardAPI {
 
     @Autowired
     private LogInRepository logInRepository;
@@ -34,7 +34,7 @@ public class DashboardController {
         if (user == null) {
             Map<String, Object> errorResponse = new HashMap<>();
             errorResponse.put("error", "User not found");
-            return
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("No user found.");
         }
         List<Events> events = user.eventsRepository.getEventsByDate(new Date());
 
@@ -85,7 +85,7 @@ public class DashboardController {
     }
 
 
-    @GetMapping("/appointments/{userId}")
+    @GetMapping("/events/appointments/{userId}")
     public ResponseEntity<?> getAppointmentsByDate(@PathVariable Long userId, Date schedule) throws SQLException {
         UserProfile user = usersProfiles.UserProfileFromId(userId);
 
