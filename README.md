@@ -19,7 +19,7 @@ Eligible students can apply for platform credits through our new [Heroku for Git
 
 ```text
 $ git clone https://github.com/mildshield14/MedSync
-$ cd src/main/java/com/heroku/java
+$ cd MedSync/src/main/java/com/heroku/java
 $ heroku create
 $ git push heroku main
 $ heroku open
@@ -32,8 +32,8 @@ By default, apps on [Fir](https://devcenter.heroku.com/articles/generations#fir)
 first.
 
 ```text
-$ git clone  https://github.com/mildshield14/MedSync
-$ cd java-getting-started
+$ git clone https://github.com/mildshield14/MedSync
+$ cd MedSync/src/main/java/com/heroku/java
 $ heroku create --space <space-name>
 $ git push heroku main
 $ heroku ps:wait
