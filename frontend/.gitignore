@@ -16,6 +16,7 @@ dist-ssr
 .vscode/*
 !.vscode/extensions.json
 .idea
+
 ../.idea/
 .DS_Store
 *.suo
@@ -23,3 +24,5 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+Rhubarb-Lip-Sync-1.13.0-Linux/
