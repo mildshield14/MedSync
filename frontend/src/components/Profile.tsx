@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "../scss/Profile.scss";
 import AvatarViewer from "./Profile3D"; // Import the 3D model component
+import Devices from "./Devices";
 
 interface UserProfile {
   name: string;
@@ -15,8 +16,16 @@ interface UserProfile {
   weight: number;
 }
 
+interface Device {
+  id: string;
+  name: string;
+  type: string;
+  status: "connected" | "disconnected";
+}
+
 const Profile: React.FC = () => {
   const [userProfile, setUserProfile] = useState<UserProfile | null>(null);
+  const [devices, setDevices] = useState<Device[]>([]);
 
   useEffect(() => {
     async function fetchUserProfile() {
@@ -45,8 +54,37 @@ const Profile: React.FC = () => {
       }
     }
 
+
+
+    async function fetchDevices() {
+      try {
+        // TODO: Replace with your actual API endpoint
+        // const response = await fetch("http://localhost:8080/api/devices");
+        // const data = await response.json();
+
+        const data = [
+          {
+            id: "1",
+            name: "Fitbit Charge 5",
+            type: "Smartwatch",
+            status: "connected",
+          },
+        ];
+
+        setDevices(data);
+      } catch (error) {
+        console.error("Error fetching devices:", error);
+      }
+    }
+
+    fetchDevices();
     fetchUserProfile();
   }, []);
+
+  const handleAddDevice = (newDevice: Device) => {
+    setDevices([...devices, newDevice]);
+  };
+
 
   if (!userProfile) {
     return <div>Loading...</div>;
@@ -160,6 +198,10 @@ const Profile: React.FC = () => {
           </div>
         </div>
       </div>
+
+
+      <Devices devices={devices} />
+
       <span className="profile__contact">Contact your admin for any changes</span>
     </div>
   );

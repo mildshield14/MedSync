@@ -1,58 +1,39 @@
-import React, { useState } from 'react'
-import axios from 'axios'
-import './scss/ChatbotWidget.scss'
-
-interface ChatMessage {
-    role: 'user' | 'assistant'
-    content: string
-}
+import React, { useState } from "react";
+import App from "../App.jsx";
+import "../scss/Chatbot.scss";
 
 const ChatbotWidget: React.FC = () => {
-    const [userMessage, setUserMessage] = useState('')
-    const [chatHistory, setChatHistory] = useState<ChatMessage[]>([])
+    const [isChatOpen, setIsChatOpen] = useState(false);
 
-    const handleSendMessage = async () => {
-        if (!userMessage.trim()) return
-
-        try {
-            // Call your backend endpoint
-            const response = await axios.post('http://localhost:8080/api/chat', {
-                message: userMessage,
-            })
-
-            const botReply = response.data.reply
-
-            setChatHistory((prev) => [
-                ...prev,
-                { role: 'user', content: userMessage },
-                { role: 'assistant', content: botReply },
-            ])
-            setUserMessage('')
-        } catch (error) {
-            console.error(error)
-        }
-    }
+    const toggleChat = () => {
+        setIsChatOpen(!isChatOpen);
+    };
 
     return (
-        <div className="chatbot">
-            <div className="chatbot__history">
-                {chatHistory.map((msg, index) => (
-                    <p key={index} className={`chat-message ${msg.role}`}>
-                        <strong>{msg.role}:</strong> {msg.content}
-                    </p>
-                ))}
-            </div>
-            <div className="chatbot__input">
-                <input
-                    type="text"
-                    value={userMessage}
-                    onChange={(e) => setUserMessage(e.target.value)}
-                    placeholder="Ask something..."
-                />
-                <button onClick={handleSendMessage}>Send</button>
-            </div>
-        </div>
-    )
-}
+        <div className="chatbot-widget">
+            {/* Floating Chat Bubble */}
+            {!isChatOpen && (
+                <div className="chatbot-bubble" onClick={toggleChat}>
+                    💬
+                </div>
+            )}
 
-export default ChatbotWidget
+            {/* Full-Size Chatbot */}
+            {isChatOpen && (
+                <div className="chatbot-container">
+                    <div className="chatbot-header">
+                        <span>Chatbot</span>
+                        <button className="chatbot-close" onClick={toggleChat}>
+                            ×
+                        </button>
+                    </div>
+                    <div className="chatbot-content">
+                        <App />
+                    </div>
+                </div>
+            )}
+        </div>
+    );
+};
+
+export default ChatbotWidget;
