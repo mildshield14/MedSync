@@ -1,37 +1,20 @@
-import React, { useState } from "react";
-import App from "../App.jsx";
+import React from "react";
+import { useNavigate } from "react-router-dom";
 import "../scss/Chatbot.scss";
 
 const ChatbotWidget: React.FC = () => {
-    const [isChatOpen, setIsChatOpen] = useState(false);
+    const navigate = useNavigate();
 
-    const toggleChat = () => {
-        setIsChatOpen(!isChatOpen);
+    const openChat = () => {
+        // Navigate to the full-screen chatbot view.
+        navigate("/chatbot");
     };
 
     return (
         <div className="chatbot-widget">
-            {/* Floating Chat Bubble */}
-            {!isChatOpen && (
-                <div className="chatbot-bubble" onClick={toggleChat}>
-                    💬
-                </div>
-            )}
-
-            {/* Full-Size Chatbot */}
-            {isChatOpen && (
-                <div className="chatbot-container">
-                    <div className="chatbot-header">
-                        <span>Chatbot</span>
-                        <button className="chatbot-close" onClick={toggleChat}>
-                            ×
-                        </button>
-                    </div>
-                    <div className="chatbot-content">
-                        <App />
-                    </div>
-                </div>
-            )}
+            <div className="chatbot-bubble" onClick={openChat}>
+                💬
+            </div>
         </div>
     );
 };

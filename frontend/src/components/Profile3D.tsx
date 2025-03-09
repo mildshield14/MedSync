@@ -5,15 +5,6 @@ import { OrbitControls, useGLTF } from "@react-three/drei";
 const Avatar3D: React.FC = () => {
     const { scene } = useGLTF("/models/skeleton.glb");
 
-
-
-
-
-
-
-
-
-
     return (
         <primitive
             object={scene}

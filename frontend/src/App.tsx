@@ -1,31 +1,24 @@
 import "./scss/globals.scss";
-import {
-    Route,
-    Routes,
-    useNavigate,
-} from "react-router-dom";
-import { useEffect, useRef, useState } from "react";
+import { Route, Routes, useNavigate } from "react-router-dom";
+import { useRef, useState } from "react";
 
 import Login from "./components/Login";
 import useElementSize from "./hook/useElementSize";
 import ProtectedRoute from "./components/ProtectedRoute";
 import Dashboard from "./components/Dashboard";
 import Navbar from "./components/Navbar";
-import Profile from "./components/Profile.tsx";
-import FitbitCallback from "./components/FitbitCallback.tsx";
-import Scene from "./Scene.jsx";
+import Profile from "./components/Profile";
+import FitbitCallback from "./components/FitbitCallback";
+import ChatbotFullScreen from "./components/Chatbox.tsx";
 
 function App() {
-    const [isAuthenticated, setIsAuthenticated] = useState(false);
-    const [username, setUsername] = useState<string | null>(null);
-
-    useEffect(() => {
-        const storedUsername = localStorage.getItem("userConnected");
-        if (storedUsername) {
-            setIsAuthenticated(true);
-            setUsername(storedUsername);
-        }
-    }, []);
+    // Initialize state from localStorage so on first render the values are correct.
+    const [isAuthenticated, setIsAuthenticated] = useState(
+        !!localStorage.getItem("userConnected")
+    );
+    const [username, setUsername] = useState<string | null>(
+        localStorage.getItem("userConnected")
+    );
 
     const navigate = useNavigate();
 
@@ -40,8 +33,8 @@ function App() {
     const size = useElementSize(ref, breakpoints);
 
     /**
-     * handleLogin is called by <Login> after a successful response
-     * from the remote server. We store username in state, localStorage, etc.
+     * handleLogin is called by <Login> after a successful login.
+     * We update state, store in localStorage, and navigate to /home.
      */
     const handleLogin = (username: string) => {
         setIsAuthenticated(true);
@@ -51,28 +44,26 @@ function App() {
     };
 
     /**
-     * handleLogout: remove localStorage and set isAuthenticated to false
+     * handleLogout: remove stored data and update state.
      */
     const handleLogout = () => {
         localStorage.removeItem("userConnected");
         localStorage.removeItem("fitbit_access_token");
         localStorage.removeItem("fitbit_refresh_token");
         setIsAuthenticated(false);
+        setUsername(null);
         navigate("/login");
     };
 
     return (
         <div className={`${size} app`} ref={ref}>
-            {/* Show the same Navbar, just pass isAuthenticated for conditional links */}
             <Navbar isAuthenticated={isAuthenticated} onLogout={handleLogout} />
 
             <Routes>
                 {/* Login Route */}
                 <Route
                     path="/login"
-                    element={
-                        <Login onLogin={handleLogin} isAuthenticated={isAuthenticated} />
-                    }
+                    element={<Login onLogin={handleLogin} isAuthenticated={isAuthenticated} />}
                 />
 
                 {/* Profile Route */}
@@ -89,7 +80,7 @@ function App() {
                 <Route path="/fitbit-callback" element={<FitbitCallback />} />
 
                 {/* Chatbot Route */}
-                <Route path="/chatbot" element={<Scene />} />
+                <Route path="/chatbot" element={<ChatbotFullScreen />} />
 
                 {/* Protected Dashboard */}
                 <Route
