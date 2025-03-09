@@ -4,15 +4,17 @@
   font-family: var(--font-family), sans-serif;
   padding: 2rem;
   background-color: #f9f9f9;
-  border-radius: 8px;
+  border-radius: 20px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   max-width: 600px;
-  margin: 0 auto;
+  margin: 10px auto;
+
 
   &__title {
     font-size: 1.5rem;
     margin-bottom: 1rem;
-    text-align: center;
+    font-weight: bold;
+    color: #333;
   }
 
   &__info {
@@ -24,4 +26,206 @@
       }
     }
   }
+}
+
+.profile {
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+
+  &__contact{
+    margin-top:20px;
+    font-size:0.8rem;
+  }
+
+  &__title {
+    margin-bottom: 20px;
+  }
+
+  &__info {
+    margin-bottom: 20px;
+  }
+
+  &__avatar {
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    overflow: hidden;
+
+    &__label{
+      font-size: 1rem;
+      margin-bottom: 1rem;
+      font-weight: bold;
+      color: #333;
+      &-title{
+        margin: 10px;
+      }
+    }
+
+    &-info{
+      display: flex;
+      flex-direction: row;
+      margin: 10px;
+
+      &-para__container{
+        display: flex;
+        flex-direction: row;
+        gap: 10px;
+      }
+
+      &-left{
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        flex: 60%;
+      }
+
+      &-right{
+        flex: 50%;
+        width: 100%;
+
+        .small & {
+          width: 50%;
+        }
+      }
+
+      &-value{
+    background-color: var(--light-color);
+      }
+
+      &-height{
+        margin-bottom: 10px;
+      }
+    }
+  }
+}
+
+
+
+.profile__avatar-info-height {
+  position: relative;
+  display: inline-block;
+  margin: 20px 0;
+  padding-top: 30px; /* Space for the ruler */
+}
+
+.profile__avatar-info-detail {
+  display: block;
+  font-size: 14px;
+  color: #333;
+  margin-bottom: 5px;
+}
+
+.profile__avatar-info-value {
+  display: block;
+  font-size: 18px;
+  font-weight: bold;
+  color: #000;
+}
+.profile__avatar-info-para {
+  position: relative;
+  display: inline-block;
+  margin: 20px 0;
+  padding-top: 30px; /* Space for the ruler */
+}
+
+.profile__avatar-info-detail {
+  display: block;
+  font-size: 14px;
+  color: #333;
+  margin-bottom: 5px;
+}
+
+.profile__avatar-info-value {
+  display: block;
+  font-size: 18px;
+  font-weight: bold;
+  color: #000;
+}
+
+/* Ruler Lines */
+.ruler-lines {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  height: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  background-color: var(--light-color);
+}
+
+.ruler-lines span {
+  display: block;
+  background: #ccc;
+}
+
+/* Small Lines */
+.ruler-lines span.small {
+  width: 1px;
+  height: 5px;
+}
+
+/* Medium Lines */
+.ruler-lines span.medium {
+  width: 1px;
+  height: 8px;
+}
+
+/* Long Line for the Value */
+.ruler-lines span.long {
+  width: 2px;
+  height: 20px;
+  background: red;
+}
+
+
+
+/* BMI Section */
+.profile__bmi {
+  margin-top: 20px;
+}
+
+
+.profile__bmi-result {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.profile__bmi-value {
+  font-size: 24px;
+  font-weight: bold;
+  color: #000;
+}
+
+.profile__bmi-category {
+  font-size: 16px;
+  color: #666;
+}
+
+/* BMI Scale */
+.profile__bmi-scale {
+  position: relative;
+  width: 100%;
+  height: 10px;
+  background: linear-gradient(
+                  to right,
+                  var(--link-hover-color),
+                  var(--nav-background-color),
+                  var(--light-color)
+  ); /* Green to Yellow to Red */
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+.profile__bmi-scale-marker {
+  position: absolute;
+  top: 0;
+  width: 2px;
+  height: 100%;
+  background: #000;
+  transform: translateX(-50%);
 }
