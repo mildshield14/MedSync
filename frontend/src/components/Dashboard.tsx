@@ -1,8 +1,8 @@
 import React from "react";
-//import ChatbotWidget from '../components/ChatbotWidget'
 import "../scss/Dashboard.scss";
 import Calendar from "./Calendar.tsx";
 import Cards from "./Cards.tsx";
+import ChatbotWidget from "./ChatbotWidget.tsx";
 
 interface DashboardProps {
     username: string | null;
@@ -18,6 +18,7 @@ const Dashboard: React.FC<DashboardProps> =  ({username}) => {
       <div className="dashboard_calendar">
         <Calendar />
       </div>
+        <ChatbotWidget />
     </div>
   );
 };

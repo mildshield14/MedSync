@@ -4,6 +4,9 @@
     "target": "ES2022",
     "lib": ["ES2023"],
     "module": "ESNext",
+    "allowJs": true,
+    "checkJs": false,
+    "jsx": "react-jsx",
     "skipLibCheck": true,
 
     /* Bundler mode */
