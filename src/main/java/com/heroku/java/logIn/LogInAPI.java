@@ -121,9 +121,9 @@ public class LogInAPI {
 
         return ResponseEntity.ok().build();
     }
-    public boolean checkAuthentification(String username, String password){
+    public boolean checkAuthentification(String username, String password, Long id){
         authRepository.createTableIfNotExists();
-        if(authRepository.isUserValid(username,password)){
+        if(authRepository.isUserValid(username,password, id)){
             return true;
         }else{
             return false;

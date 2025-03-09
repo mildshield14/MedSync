@@ -20,9 +20,9 @@ public class LogInRepository {
     public void createTableIfNotExists() {
         String sql = "CREATE TABLE IF NOT EXISTS users (id SERIAL PRIMARY KEY,username VARCHAR(255) UNIQUE NOT NULL,"
                 + "password VARCHAR(255) NOT NULL, locationName VARCHAR(255) );"
-                + "INSERT INTO users (username, password) VALUES ('username1', 'password1');"
-                + "INSERT INTO users (username, password) VALUES ('username2', 'password2');"
-                + "INSERT INTO users (username, password) VALUES ('username3', 'password3');";
+                + "INSERT INTO users (username, password, id) VALUES ('username1', 'password1', 'id1');"
+                + "INSERT INTO users (username, password, id) VALUES ('username2', 'password2', 'id2');"
+                + "INSERT INTO users (username, password, id) VALUES ('username3', 'password3', 'id3');";
 
         try (Connection connection = dataSource.getConnection();
              PreparedStatement statement = connection.prepareStatement(sql)) {
@@ -64,7 +64,7 @@ public class LogInRepository {
     }
 
 
-    public boolean isUserValid(String username, String password) {
+    public boolean isUserValid(String username, String password, Long id) {
         String sql = "SELECT * FROM users WHERE username = ? AND password = ?";
         try (Connection connection = dataSource.getConnection();
              PreparedStatement statement = connection.prepareStatement(sql)) {
