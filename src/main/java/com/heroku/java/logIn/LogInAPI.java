@@ -9,7 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@CrossOrigin(origins = "*", allowCredentials = "true")
+@CrossOrigin(origins = "http://localhost:5173", allowCredentials = "true")
 public class LogInAPI {
     private final LogInRepository authRepository;
 
@@ -20,6 +20,8 @@ public class LogInAPI {
     @PostMapping("/login")
     public ResponseEntity<String>  login(@RequestBody LoginRequest loginRequest, HttpServletResponse response) {
         authRepository.createTableIfNotExists();
+        response.setHeader("Access-Control-Allow-Origin", "http://localhost:5173");
+        response.setHeader("Access-Control-Allow-Credentials", "true");
         if(checkAuthentification(loginRequest.username, loginRequest.password)) {
             Cookie cookie = new Cookie("SESSIONID", generateSessionId());
             cookie.setHttpOnly(true);
@@ -28,8 +30,7 @@ public class LogInAPI {
             cookie.setMaxAge(30 * 60 *60); // 30 hours expiration
 
             response.addCookie(cookie);
-            response.setHeader("Access-Control-Allow-Origin", "http://localhost:5173");
-            response.setHeader("Access-Control-Allow-Credentials", "true");
+
             return ResponseEntity.ok("Login successful");
         }else{
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
@@ -41,6 +42,8 @@ public class LogInAPI {
     @PostMapping("/register")
     public ResponseEntity<String> register(@RequestBody LoginRequest loginRequest, HttpServletResponse response){
         authRepository.createTableIfNotExists();
+        response.setHeader("Access-Control-Allow-Origin", "http://localhost:5173");
+        response.setHeader("Access-Control-Allow-Credentials", "true");
         if(authRepository.registerUser(loginRequest.username, loginRequest.password)) {
             Cookie cookie = new Cookie("SESSIONID", generateSessionId());
             cookie.setHttpOnly(true);
@@ -50,8 +53,6 @@ public class LogInAPI {
 
             // ✅ Attach the cookie to the response
             response.addCookie(cookie);
-            response.setHeader("Access-Control-Allow-Origin", "http://localhost:3000");
-            response.setHeader("Access-Control-Allow-Credentials", "true");
             return ResponseEntity.ok("Login successful");
         }else{
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
