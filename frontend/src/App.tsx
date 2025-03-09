@@ -43,6 +43,7 @@ function App() {
         // For now, just mark them as "authenticated"
         setIsAuthenticated(true);
         setUsername(username);
+        console.log(password);
 
         // Optionally store in localStorage
         localStorage.setItem("userConnected", username);
