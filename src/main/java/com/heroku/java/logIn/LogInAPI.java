@@ -3,6 +3,7 @@ package com.heroku.java.logIn;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -27,7 +28,7 @@ public class LogInAPI {
             cookie.setMaxAge(30 * 60 *60); // 30 hours expiration
 
             response.addCookie(cookie);
-            response.setHeader("Access-Control-Allow-Origin", "http://localhost:3000");
+            response.setHeader("Access-Control-Allow-Origin", "http://localhost:5173");
             response.setHeader("Access-Control-Allow-Credentials", "true");
             return ResponseEntity.ok("Login successful");
         }else{
@@ -84,8 +85,16 @@ public class LogInAPI {
         return java.util.UUID.randomUUID().toString();
     }
 
-
-    public static class LoginResponse {
+    @RequestMapping(method = RequestMethod.OPTIONS)
+    public ResponseEntity<?> handleOptionsRequest() {
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Access-Control-Allow-Origin", "http://localhost:5173");
+        headers.add("Access-Control-Allow-Credentials", "true");
+        headers.add("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
+        headers.add("Access-Control-Allow-Headers", "Content-Type");
+        return new ResponseEntity<>(headers, HttpStatus.OK);
+    }
+        public static class LoginResponse {
         private String name;
 
         public LoginResponse(String name) {
