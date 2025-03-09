@@ -12,7 +12,7 @@ import {
 /** Shared Event interface for both appointments & meds. */
 interface CalendarEvent {
   id?: number;
-  title: string; // unify "appointment" title or "med" name here
+  title: string;
   date: string; // e.g. "2025-03-10T20:55:16Z"
   location?: string;
   isVirtual?: string;

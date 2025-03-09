@@ -30,3 +30,13 @@ build/
 
 ### VS Code ###
 .vscode/
+
+.github
+.mvn
+.env
+mvnw
+mvnw.cmd
+pom.xml
+.qodo
+system.properties
+Procfile

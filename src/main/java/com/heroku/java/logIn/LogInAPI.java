@@ -50,6 +50,7 @@ public class LogInAPI {
     }
 
     @PostMapping("/register")
+
     public ResponseEntity<String> register(@RequestBody LoginRequest loginRequest, HttpServletResponse response,
                                            @RequestHeader(value = "Origin", required = false) String origin,
                                            @RequestParam Long id){
@@ -60,6 +61,7 @@ public class LogInAPI {
             response.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization, Accept");
             response.setHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS");
         }
+
         if(authRepository.registerUser(loginRequest.username, loginRequest.password)) {
             String sessionId = generateSessionId();
             Cookie cookie = new Cookie("SESSIONID",sessionId );
