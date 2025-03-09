@@ -6,6 +6,10 @@ from langchain_astradb import AstraDBVectorStore
 from langchain_huggingface import HuggingFaceEmbeddings
 from langchain.schema import Document
 from langchain_google_genai import ChatGoogleGenerativeAI
+from langchain.agents import create_tool_calling_agent
+from langchain.tools.retriever import create_retriever_tool
+from langchain import hub
+from langchain.agents import AgentExecutor
 
 
 load_dotenv()
@@ -24,34 +28,62 @@ def connect_to_vstore():
     )
     return vstore
 
-def query_database(query, k=3):
+# def query_database(query, k=3):
+#     vstore = connect_to_vstore()
+
+#     retriever = vstore.as_retriever(search_kwargs={"k": k})
+
+#     retrieved_data = retriever.get_relevant_documents(query)
+
+#     context = "\n".join([doc.page_content for doc in retrieved_data])
+
+#     llm = ChatGoogleGenerativeAI(
+#         model="gemini-1.5-pro",
+#         temperature=0,
+#         max_tokens=None,
+#         timeout=None,
+#         max_retries=2,
+#     )
+
+#     prompt_template = ( 
+#         "You are a helpful assistant answering medical questions based on the provided context. "
+#         "Answer the query using the context information.\n"
+#         "Query: {query}\n"
+#         "Context: {context}" 
+#     )
+
+#     result = llm.invoke(prompt_template.format(query=query, context=context))
+
+#     return result
+
+def query_database(query, k=1):
     vstore = connect_to_vstore()
 
     retriever = vstore.as_retriever(search_kwargs={"k": k})
 
-    retrieved_data = retriever.get_relevant_documents(query)
+    retriever_tool = create_retriever_tool(
+    retriever,
+    "MedDocs",
+    "Search for information about medical issues. For any questions about medical issues, you must use this tool!",
+    )
 
-    context = "\n".join([doc.page_content for doc in retrieved_data])
+    # context = "\n".join([doc.page_content for doc in retrieved_data])
+
+    prompt = hub.pull("hwchase17/openai-functions-agent")
 
     llm = ChatGoogleGenerativeAI(
         model="gemini-1.5-pro",
         temperature=0,
         max_tokens=None,
         timeout=None,
-        max_retries=2,
+        max_retries=1,
     )
 
-    prompt_template = ( 
-        "You are a helpful assistant answering medical questions based on the provided context. "
-        "Answer the query using the context information.\n"
-        "Query: {query}\n"
-        "Context: {context}" 
-    )
+    tools = [retriever_tool]
+    agent = create_tool_calling_agent(llm, tools, prompt)
+    agent_executor = AgentExecutor(agent=agent, tools=tools, verbose=True)
 
-    result = llm.invoke(prompt_template.format(query=query, context=context))
-
-    return result
-
+    return agent_executor.invoke({"input": query})
 
 def add_documents_to_vstore(documents):
     try:
@@ -78,6 +110,7 @@ def main():
     add_documents_to_vstore(documents)
 
     print(query_database("Cure"))
+    # print(query_database("Best Cure Headache"))
 
 if __name__ == "__main__":
     main()
