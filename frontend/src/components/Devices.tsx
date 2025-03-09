@@ -57,12 +57,12 @@ const Devices: React.FC<DevicesProps> = ({ devices }) => {
     // outside of any function, which means they ran on every render.
 
     // Optionally, you can define a function to handle adding a device:
-    const handleAddDevice = () => {
-        // Here you could construct a new device object and add it to a list (if needed).
-        // For now, we simply close the modal and reset the input.
-        setIsModalOpen(false);
-        setNewDeviceName("");
-    };
+    // const handleAddDevice = () => {
+    //     // Here you could construct a new device object and add it to a list (if needed).
+    //     // For now, we simply close the modal and reset the input.
+    //     setIsModalOpen(false);
+    //     setNewDeviceName("");
+    // };
 
     return (
         <div className="devices">
