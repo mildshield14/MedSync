@@ -38,12 +38,26 @@ public class LogInRepository {
             statement.setString(1, username);
             statement.setString(2, password);
             statement.executeQuery();
-            ResultSet resultSet = statement.executeQuery();
-            return resultSet.next(); // If any result, user is valid
+            statement.executeQuery();
+            return true; // If any result, user is valid
         } catch (SQLException e) {
             e.printStackTrace();
             return false;
         }
+    }
+    public String getUsernameById(Long id) {
+        String sql = "SELECT username FROM users WHERE id = ?";
+        try (Connection connection = dataSource.getConnection();
+             PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setLong(1, id);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                return rs.getString("username");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return "User not found";
     }
 
 
