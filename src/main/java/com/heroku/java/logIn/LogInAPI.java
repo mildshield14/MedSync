@@ -94,6 +94,16 @@ public class LogInAPI {
 
         return new ResponseEntity<>(headers, HttpStatus.OK);
     }
+    @RequestMapping(value = "/register", method = RequestMethod.OPTIONS)
+    public ResponseEntity<?> handlePreflightRegister() {
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Access-Control-Allow-Origin", "http://localhost:5173"); // Change to frontend URL in production
+        headers.add("Access-Control-Allow-Credentials", "true");
+        headers.add("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
+        headers.add("Access-Control-Allow-Headers", "Content-Type, Authorization");
+
+        return new ResponseEntity<>(headers, HttpStatus.OK);
+    }
         public static class LoginResponse {
         private String name;
 
