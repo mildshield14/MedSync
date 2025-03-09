@@ -27,6 +27,7 @@
     "react-router-dom": "^7.3.0",
     "recharts": "^2.15.1",
     "sass": "^1.85.1",
+    "save": "^2.9.0",
     "three": "^0.173.0"
   },
   "devDependencies": {
