@@ -8,10 +8,6 @@ Using resources for this example app counts towards your usage. [Delete your app
 
 ### Deploy on Heroku [Cedar](https://devcenter.heroku.com/articles/generations#cedar)
 
-By default, apps use Eco dynos if you are subscribed to Eco. Otherwise, it defaults to Basic dynos. The Eco dynos plan is shared across all Eco dynos in your account and is recommended if you plan on deploying many small apps to Heroku. Learn more about our low-cost plans [here](https://blog.heroku.com/new-low-cost-plans).
-
-Eligible students can apply for platform credits through our new [Heroku for GitHub Students program](https://blog.heroku.com/github-student-developer-program).
-
 ```text
 $ git clone https://github.com/mildshield14/MedSync
 $ cd MedSync/src/main/java/com/heroku/java
