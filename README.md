@@ -1,4 +1,4 @@
-## MediSync
+# MediSync
 MediSync provides an intuitive interface that supports patients throughout their post-hospital journey, helping them track their recovery and stay connected with their healthcare needs.  
 
 
