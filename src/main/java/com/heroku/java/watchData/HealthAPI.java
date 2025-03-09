@@ -11,7 +11,7 @@ import java.util.List;
 @CrossOrigin(origins = "*")
 public class HealthAPI {
 
-    @GetMapping("/breathingData")
+    @GetMapping("/breathingRate")
     //https://dev.fitbit.com/build/reference/web-api/breathing-rate/get-br-summary-by-date/
     public BreathingData getBreathingData() {
         BreathingData healthData = new BreathingData();
