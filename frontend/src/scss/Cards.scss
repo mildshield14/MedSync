@@ -18,7 +18,31 @@
     align-items: center;
     flex-direction: column;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    min-width: 350px;
+    min-width: 490px;
+    min-height: 350px;
+
+    &-scroll {
+      max-height: 400px;
+      overflow-y: auto;
+      padding-right: 0.5rem;
+    }
+
+    &-item{
+    &-title {
+      font-weight: bold;
+      margin-top: 20px;
+      margin-bottom: 10px;
+    }
+
+    &-date,
+    &-location,
+    &-dose,
+    &-time {
+      font-size: 0.9rem;
+      color: #555;
+      margin-bottom: 10px;
+    }
+  }
 
 &-chart{
   min-height: 200px;
