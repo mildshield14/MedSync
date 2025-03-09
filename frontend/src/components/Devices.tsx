@@ -20,7 +20,7 @@ const generateCodeChallenge = async (codeVerifier: string) => {
 
 const connectToFitbit = async () => {
     const clientId = "23Q4VM"; // Replace with your Fitbit client ID
-    const scope = encodeURIComponent("activity heartrate sleep"); // Replace with your desired scopes
+    const scope = encodeURIComponent("activity heartrate sleep"); // Replace with desired scopes
     const redirectUri = encodeURIComponent("http://localhost:5173/profile"); // Replace with your redirect URI
 
     const codeVerifier = generateCodeVerifier();
@@ -49,17 +49,20 @@ const Devices: React.FC<DevicesProps> = ({ devices }) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [newDeviceName, setNewDeviceName] = useState("");
 
-    // const handleAddDevice = () => {
-    //     const newDevice: Device = {
-    //         id: String(devices.length + 1),
-    //         name: newDeviceName,
-    //         type: "Fitbit",
-    //         status: "connected",
-    //     };
- //    onAddDevice(newDevice);
+    // Remove any state updates that run outside an event handler:
+    // (These were causing infinite re-renders.)
+    // For example, previously you had:
+    //    setIsModalOpen(false);
+    //    setNewDeviceName("");
+    // outside of any function, which means they ran on every render.
+
+    // Optionally, you can define a function to handle adding a device:
+    const handleAddDevice = () => {
+        // Here you could construct a new device object and add it to a list (if needed).
+        // For now, we simply close the modal and reset the input.
         setIsModalOpen(false);
         setNewDeviceName("");
-    // };
+    };
 
     return (
         <div className="devices">
@@ -88,14 +91,25 @@ const Devices: React.FC<DevicesProps> = ({ devices }) => {
                 <div className="devices__modal">
                     <div className="devices__modal-content">
                         <h3 className="devices__modal--text">Add Device</h3>
-                        <input className="devices__modal--input"
-                               type="text"
-                               placeholder="Device Name"
-                               value={newDeviceName}
-                               onChange={(e) => setNewDeviceName(e.target.value)}
+                        <input
+                            className="devices__modal--input"
+                            type="text"
+                            placeholder="Device Name"
+                            value={newDeviceName}
+                            onChange={(e) => setNewDeviceName(e.target.value)}
                         />
-                        <button className="devices__modal--add" onClick={connectToFitbit}>Add</button>
-                        <button className="devices__modal--cancel" onClick={() => setIsModalOpen(false)}>Cancel</button>
+                        <button
+                            className="devices__modal--add"
+                            onClick={connectToFitbit}
+                        >
+                            Add
+                        </button>
+                        <button
+                            className="devices__modal--cancel"
+                            onClick={() => setIsModalOpen(false)}
+                        >
+                            Cancel
+                        </button>
                     </div>
                 </div>
             )}

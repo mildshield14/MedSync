@@ -1,6 +1,6 @@
 import "./scss/globals.scss";
 import { Route, Routes, useNavigate } from "react-router-dom";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import Login from "./components/Login";
 import useElementSize from "./hook/useElementSize";
@@ -9,10 +9,10 @@ import Dashboard from "./components/Dashboard";
 import Navbar from "./components/Navbar";
 import Profile from "./components/Profile";
 import FitbitCallback from "./components/FitbitCallback";
-import ChatbotFullScreen from "./components/Chatbox.tsx";
+import ChatbotFullScreen from "./components/Chatbox"; // Your Chatbot component
 
 function App() {
-    // Initialize state from localStorage so on first render the values are correct.
+    // Initialize state directly from localStorage
     const [isAuthenticated, setIsAuthenticated] = useState(
         !!localStorage.getItem("userConnected")
     );
@@ -32,9 +32,15 @@ function App() {
     };
     const size = useElementSize(ref, breakpoints);
 
+    // Optional: if the user is authenticated and the current path is "/login", redirect to /home.
+    useEffect(() => {
+        if (isAuthenticated && window.location.pathname === "/login") {
+            navigate("/home", { replace: true });
+        }
+    }, [isAuthenticated, navigate]);
+
     /**
      * handleLogin is called by <Login> after a successful login.
-     * We update state, store in localStorage, and navigate to /home.
      */
     const handleLogin = (username: string) => {
         setIsAuthenticated(true);
@@ -80,7 +86,7 @@ function App() {
                 <Route path="/fitbit-callback" element={<FitbitCallback />} />
 
                 {/* Chatbot Route */}
-                <Route path="/chatbot" element={<ChatbotFullScreen />} />
+                <Route path="/chatbot" element={<ProtectedRoute isAuthenticated={isAuthenticated}><ChatbotFullScreen /></ProtectedRoute>} />
 
                 {/* Protected Dashboard */}
                 <Route
@@ -92,7 +98,7 @@ function App() {
                     }
                 />
 
-                {/* Fallback: if logged in, go Dashboard; else go Login */}
+                {/* Fallback */}
                 <Route
                     path="*"
                     element={

@@ -32,27 +32,65 @@
   display: flex;
   flex-direction: column;
 }
-
 .chatbot-header {
+ z-index: 1;
+  position: absolute;
   display: flex;
-  justify-content: space-between;
+  flex-direction: row;
   align-items: center;
-  background: transparent;
-  color: #fff;
-  padding: 1rem;
-  font-size: 1.2rem;
+  font-family: var(--font-family);
 }
 
 .chatbot-close {
   background: transparent;
   border: none;
-  font-size: 1.5rem;
-  color: #fff;
+  font-size: 3.5rem;
+  color: var(--link-hover-color);
   cursor: pointer;
+  padding: 2rem;
 }
 
 .chatbot-content {
   flex: 1;
   overflow: auto;
-  padding: 1rem;
+  padding: 0rem;
+}
+
+.chatbot-messager {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  border-top: 1px solid #ccc;
+  background-color: #f9f9f9;
+
+  input {
+    flex: 1;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-right: 10px;
+    color: var(--link-hover-color)
+  }
+
+  button {
+    padding: 10px 20px;
+    border: none;
+    background-color: var(--link-hover-color);
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+
+    &:hover {
+      background-color: var(--secondary-color);
+    }
+  }
+}
+
+.chatbot-title {
+  font-size: 2rem;
+  font-weight: 900;
+  text-align: center;
+  margin: 0;
+  padding: 10px 0;
+  color: var(--link-hover-color)
 }
