@@ -8,8 +8,6 @@ from langchain_astradb import AstraDBVectorStore
 from langchain_huggingface import HuggingFaceEmbeddings
 from langchain.schema import Document
 from langchain_ollama import OllamaLLM
-import json
-import ollama
 
 load_dotenv()
 
