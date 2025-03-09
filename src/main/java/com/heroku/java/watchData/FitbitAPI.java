@@ -17,9 +17,9 @@ import java.util.Base64;
 public class FitbitAPI {
 
     private String clientId = "23Q4VM";
-    private String redirectUri = "https://udemhacks.com/";
+    private String redirectUri = "http://localhost:5173/profile/";
     private String fitbitTokenUrl = "https://api.fitbit.com/oauth2/token";
-    private String code = "fd6ea0467590d1f0e6b7790fcf486f8a";
+    //private String code = "fd6ea0467590d1f0e6b7790fcf486f8a";
     private String codeVerifier;
 
     @GetMapping("/login")
@@ -69,7 +69,7 @@ public class FitbitAPI {
 
 
     @GetMapping("/callback")
-    public ResponseEntity<String> callback() {
+    public ResponseEntity<String> callback(@RequestPart String code) {
         RestTemplate restTemplate = new RestTemplate();
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
