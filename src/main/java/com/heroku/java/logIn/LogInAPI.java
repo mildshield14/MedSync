@@ -27,6 +27,8 @@ public class LogInAPI {
             cookie.setMaxAge(30 * 60 *60); // 30 hours expiration
 
             response.addCookie(cookie);
+            response.setHeader("Access-Control-Allow-Origin", "http://localhost:3000");
+            response.setHeader("Access-Control-Allow-Credentials", "true");
             return ResponseEntity.ok("Login successful");
         }else{
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
@@ -47,7 +49,8 @@ public class LogInAPI {
 
             // ✅ Attach the cookie to the response
             response.addCookie(cookie);
-
+            response.setHeader("Access-Control-Allow-Origin", "http://localhost:3000");
+            response.setHeader("Access-Control-Allow-Credentials", "true");
             return ResponseEntity.ok("Login successful");
         }else{
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
@@ -80,6 +83,8 @@ public class LogInAPI {
         // Generate a random session ID (in real life, use a UUID)
         return java.util.UUID.randomUUID().toString();
     }
+
+
     public static class LoginResponse {
         private String name;
 
