@@ -7,19 +7,24 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+
 public class UserProfile {
     AppointmentRepository appointmentRepository;
     MedicineRepository medicineRepository;
     LogInRepository logInRepository;
-
+    EventsRepository eventsRepository;
     Long userId ;
 
-    public UserProfile(Long userId) throws SQLException {
+    public UserProfile() throws SQLException {
     }
+
+
     public UserProfile createProfile(Long userId) throws SQLException {
-        UserProfile newUserProfile = new UserProfile(userId);
+        UserProfile newUserProfile = new UserProfile();
         return newUserProfile;
     }
+
+
     String username =
             logInRepository.getUsernameById(userId);
 

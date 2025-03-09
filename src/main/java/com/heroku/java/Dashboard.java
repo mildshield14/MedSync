@@ -23,14 +23,14 @@ public class Dashboard {
             List<Medicine> userMedicines = user.getMedicines();
 
             for (int a = 0; a < user.getAppointements().size(); a++) {
-                jsonData.put("title", userAppointments.get(a).getTitle());
+                jsonData.put("title", userAppointments.get(a).getName());
                 jsonData.put("date", userAppointments.get(a).getSchedule());
                 jsonData.put("location", userAppointments.get(a).getLocation());
                 jsonData.put("isVirtual", userAppointments.get(a).getIsVirtual());
             }
 
             for (int m = 0; m < user.getMedicines().size(); m++) {
-                jsonData.put("id", userMedicines.get(m).getIdMedicine());
+                jsonData.put("id", userMedicines.get(m).getEventId());
                 jsonData.put("title", userMedicines.get(m).getName());
                 jsonData.put("dose", userMedicines.get(m).getDose());
                 jsonData.put("date", userMedicines.get(m).getSchedule());
@@ -57,7 +57,7 @@ public class Dashboard {
                     List<Appointment> userAppointments = user.getAppointements();
 
                     for (int a = 0; a < user.getAppointements().size(); a++) {
-                        jsonData.put("title", userAppointments.get(a).getTitle());
+                        jsonData.put("title", userAppointments.get(a).getName());
                         jsonData.put("date", userAppointments.get(a).getSchedule());
                         jsonData.put("location", userAppointments.get(a).getLocation());
                         jsonData.put("isVirtual", userAppointments.get(a).getIsVirtual());
@@ -67,7 +67,7 @@ public class Dashboard {
                 case "Medications":
                     List<Medicine> userMedicines = user.getMedicines();
                     for (int m = 0; m < user.getMedicines().size(); m++) {
-                        jsonData.put("id", userMedicines.get(m).getIdMedicine());
+                        jsonData.put("id", userMedicines.get(m).getEventId());
                         jsonData.put("title", userMedicines.get(m).getName());
                         jsonData.put("dose", userMedicines.get(m).getDose());
                         jsonData.put("date", userMedicines.get(m).getSchedule());

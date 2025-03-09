@@ -1,6 +1,5 @@
 package com.heroku.java;
 
-import com.heroku.java.Medicine;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -15,29 +14,28 @@ import java.util.List;
 
 
 @Repository
-public class MedicineRepository {
+public class EventsRepository {
 
 
     private final DataSource dataSource;
 
     @Autowired
-    public MedicineRepository(DataSource dataSource) {
+    public EventsRepository(DataSource dataSource) {
         this.dataSource = dataSource;
     }
 
     public void createTableIfNotExists() {
-        String medicinesSql = "CREATE TABLE IF NOT EXISTS Medicines ("
+        String eventsSql = "CREATE TABLE IF NOT EXISTS Events ("
                 + "id SERIAL PRIMARY KEY,"
-                + "userId INTEGER NOT NULL,"
+                + "eventsId INTEGER NOT NULL,"
                 + "name VARCHAR(255) NOT NULL,"
-                + "dosage VARCHAR(100),"
                 + "schedule TIMESTAMP NOT NULL,"
                 + "FOREIGN KEY (userId) REFERENCES users(id) ON DELETE CASCADE"
                 + ");";
 
 
         try (Connection connection = dataSource.getConnection();
-             PreparedStatement statement = connection.prepareStatement(medicinesSql)) {
+             PreparedStatement statement = connection.prepareStatement(eventsSql)) {
             statement.executeQuery();
 
         } catch (SQLException e) {
@@ -45,10 +43,10 @@ public class MedicineRepository {
         }
     }
 
-    public List<Medicine> getMedicinesByDate(Date date) throws SQLException {
-        List<Medicine> medicines = new ArrayList<>();
+    public List<Events> getEventsByDate(Date date) throws SQLException {
+        List<Events> events = new ArrayList<>();
 
-        String sql = "SELECT * FROM Medicine WHERE DATE(date) = ?";
+        String sql = "SELECT * FROM Events WHERE DATE(date) = ?";
 
         try (Connection connection = dataSource.getConnection();
              PreparedStatement statement = connection.prepareStatement(sql)) {
@@ -56,20 +54,19 @@ public class MedicineRepository {
             statement.setDate(1, new java.sql.Date(date.getTime()));
             try (ResultSet resultSet = statement.executeQuery()) {
                 while (resultSet.next()) {
-                    Medicine medicine = new Medicine();
-                    medicine.setEventId(resultSet.getInt("id"));
-                    medicine.setSchedule(resultSet.getDate("schedule"));
-                    medicine.setName(resultSet.getString("name"));
-                    medicine.setDose(resultSet.getInt("dose"));
+                    Events event = new Medicine();
+                    event.setEventId(resultSet.getInt("id"));
+                    event.setSchedule(resultSet.getDate("schedule"));
+                    event.setName(resultSet.getString("name"));
 
-                    medicines.add(medicine);
+                    events.add(event);
                 }
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
-        return medicines;
+        return events;
     }
 }
 
