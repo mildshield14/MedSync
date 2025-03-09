@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
-@CrossOrigin(origins = "*", allowCredentials = "true")
 public class HealthAPI {
 
     @GetMapping("/breathingRate")
