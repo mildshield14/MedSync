@@ -47,6 +47,7 @@ public class LogInAPI {
 
             // ✅ Attach the cookie to the response
             response.addCookie(cookie);
+
             return ResponseEntity.ok("Login successful");
         }else{
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
