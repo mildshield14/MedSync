@@ -18,18 +18,20 @@ public class LogInRepository {
     }
     public void createTableIfNotExists() {
         String sql = "CREATE TABLE IF NOT EXISTS users (id SERIAL PRIMARY KEY,username VARCHAR(255) UNIQUE NOT NULL,"
-                + "password VARCHAR(255) NOT NULL);"
+                + "password VARCHAR(255) NOT NULL, locationName VARCHAR(255));"
                 + "INSERT INTO users (username, password) VALUES ('username1', 'password1');"
                 + "INSERT INTO users (username, password) VALUES ('username2', 'password2');"
                 + "INSERT INTO users (username, password) VALUES ('username3', 'password3');";
+
         try (Connection connection = dataSource.getConnection();
              PreparedStatement statement = connection.prepareStatement(sql)) {
-             statement.executeQuery();
+            statement.executeQuery();
 
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
+
 
     public boolean registerUser(String username, String password) {
         String sql = "INSERT INTO users (username, password) VALUES (?, ?)";
@@ -77,6 +79,22 @@ public class LogInRepository {
             return false;
         }
     }
+
+    public String getLocationById(Long id) {
+        String sql = "SELECT location FROM users WHERE id = ?";
+        try (Connection connection = dataSource.getConnection();
+             PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setLong(1, id);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                return rs.getString("location");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return "Location not found";
+    }
+
 }
 
 
