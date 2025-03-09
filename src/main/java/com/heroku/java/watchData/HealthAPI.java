@@ -18,7 +18,7 @@ public class HealthAPI {
 
     @GetMapping("/breathingRate")
     //https://dev.fitbit.com/build/reference/web-api/breathing-rate/get-br-summary-by-date/
-    public BreathingData getBreathingData() {
+    public ResponseEntity<BreathingData> getBreathingData() {
         BreathingData healthData = new BreathingData();
         List<BreathingData.BreathingRateData> brList = new ArrayList<>();
 
@@ -32,11 +32,11 @@ public class HealthAPI {
         brList.add(data);
         healthData.setBr(brList);
 
-        return healthData;
+        return ResponseEntity.ok(healthData);
     }
     @GetMapping("/vo2Max")
     //https://dev.fitbit.com/build/reference/web-api/cardio-fitness-score/get-vo2max-summary-by-date/
-    public VO2Max getVO2MaxData() {
+    public ResponseEntity<VO2Max> getVO2MaxData() {
         VO2Max vo2Max = new VO2Max();
         List<VO2Max.CardioData> dataList = new ArrayList<>();
         VO2Max.CardioData data = new VO2Max.CardioData();
@@ -49,7 +49,8 @@ public class HealthAPI {
         dataList.add(data);
         vo2Max.setCardioScore(dataList);
 
-        return vo2Max;
+        return ResponseEntity.ok(vo2Max);
+
     }
 
     @GetMapping("/heartRate/{numbers}")
@@ -70,19 +71,19 @@ public class HealthAPI {
 
     @GetMapping("/heartRateVariability")
     //https://dev.fitbit.com/build/reference/web-api/heartrate-variability/get-hrv-summary-by-date/
-    public HeartRateVariabilityData getHrvData() {
+    public ResponseEntity<HeartRateVariabilityData> getHrvData() {
         // Hardcoded data based on your JSON
         HeartRateVariabilityData hrvData = new HeartRateVariabilityData();
         hrvData.setDateTime("2021-10-25");
         hrvData.setDailyRmssd(34.938);
         hrvData.setDeepRmssd(31.567);
-        return hrvData;
+        return ResponseEntity.ok(hrvData);
     }
 
 
     @GetMapping("/heartAlert")
     //https://dev.fitbit.com/build/reference/web-api/irregular-rhythm-notifications/get-irn-alerts-list/
-    public List<AlertData> getAlerts() {
+    public ResponseEntity<List<AlertData>> getAlerts() {
         List<AlertData> alerts = new ArrayList<>();
 
         // Creating the first alert
@@ -99,18 +100,18 @@ public class HealthAPI {
         alert.setBpmData(bpmList);
         alerts.add(alert);
 
-        return alerts;
+        return ResponseEntity.ok(alerts);
     }
 
     @GetMapping("/oxygen")
     //https://dev.fitbit.com/build/reference/web-api/spo2/get-spo2-summary-by-date/
-    public OxygenData getOxygenData() {
+    public ResponseEntity<OxygenData> getOxygenData() {
     // Hardcoded data from your JSON
     OxygenData oxygenData = new OxygenData();
     oxygenData.setDateTime("2021-10-04");
     oxygenData.setAvg(97.5);
     oxygenData.setMin(94.0);
     oxygenData.setMax(100.0);
-    return oxygenData;
+    return ResponseEntity.ok(oxygenData);
     }
 }
