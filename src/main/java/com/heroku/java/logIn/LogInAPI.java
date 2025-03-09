@@ -84,7 +84,16 @@ public class LogInAPI {
         // Generate a random session ID (in real life, use a UUID)
         return java.util.UUID.randomUUID().toString();
     }
+    @RequestMapping(value = "/login", method = RequestMethod.OPTIONS)
+    public ResponseEntity<?> handlePreflightLogin() {
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Access-Control-Allow-Origin", "http://localhost:5173"); // Change to frontend URL in production
+        headers.add("Access-Control-Allow-Credentials", "true");
+        headers.add("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
+        headers.add("Access-Control-Allow-Headers", "Content-Type, Authorization");
 
+        return new ResponseEntity<>(headers, HttpStatus.OK);
+    }
         public static class LoginResponse {
         private String name;
 
