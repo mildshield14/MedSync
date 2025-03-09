@@ -18,7 +18,7 @@ public class CorsConfig {
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.setAllowedOrigins(Arrays.asList("http://localhost:5173","https://stately-crisp-851c78.netlify.app"));
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "HEAD", "OPTIONS"));
-        configuration.setAllowedHeaders(Arrays.asList( "Content-Type", "Authorization"));
+        configuration.setAllowedHeaders(Arrays.asList( "Content-Type", "Authorization", "Accept"));
         configuration.setAllowCredentials(true);
         configuration.setMaxAge(360000L);
 
