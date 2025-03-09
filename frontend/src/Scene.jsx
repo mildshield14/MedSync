@@ -9,7 +9,7 @@ function Scene() {
       <color attach="background" args={["#ececec"]} />
       <Experience />
     </Canvas>
-    {/* <PromptInput /> */}
+    {/*<PromptInput />*/}
     </>
   );
 }

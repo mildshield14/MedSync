@@ -43,24 +43,23 @@ interface Device {
 
 interface DevicesProps {
     devices: Device[];
-    onAddDevice: (device: Device) => void;
 }
 
-const Devices: React.FC<DevicesProps> = ({ devices, onAddDevice }) => {
+const Devices: React.FC<DevicesProps> = ({ devices }) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [newDeviceName, setNewDeviceName] = useState("");
 
-    const handleAddDevice = () => {
-        const newDevice: Device = {
-            id: String(devices.length + 1),
-            name: newDeviceName,
-            type: "Fitbit",
-            status: "connected",
-        };
-        onAddDevice(newDevice);
+    // const handleAddDevice = () => {
+    //     const newDevice: Device = {
+    //         id: String(devices.length + 1),
+    //         name: newDeviceName,
+    //         type: "Fitbit",
+    //         status: "connected",
+    //     };
+ //    onAddDevice(newDevice);
         setIsModalOpen(false);
         setNewDeviceName("");
-    };
+    // };
 
     return (
         <div className="devices">

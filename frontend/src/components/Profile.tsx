@@ -11,7 +11,7 @@ interface UserProfile {
   address: string;
   phoneNumber: string;
   email: string;
-  sex: "male" | "female";
+  sex: "male"| "female";
   height: number;
   weight: number;
 }
@@ -42,12 +42,11 @@ const Profile: React.FC = () => {
           address: "123 Main St, Anytown, USA",
           phoneNumber: "(123) 456-7890",
           email: "john.doe@example.com",
-          sex: "male",
+          sex: "male" as const, // Ensure it matches the type "male" | "female"
           height: 180,
           weight: 75,
-          clothes: "/models/clothes/shirt.glb", // Example clothing model
+          clothes: "/models/clothes/shirt.glb",
         };
-
         setUserProfile(data);
       } catch (error) {
         console.error("Error fetching user profile:", error);
@@ -67,9 +66,10 @@ const Profile: React.FC = () => {
             id: "1",
             name: "Fitbit Charge 5",
             type: "Smartwatch",
-            status: "connected",
+            status: "connected" as const, // Ensure it matches the type "connected" | "disconnected"
           },
         ];
+
 
         setDevices(data);
       } catch (error) {
@@ -80,11 +80,6 @@ const Profile: React.FC = () => {
     fetchDevices();
     fetchUserProfile();
   }, []);
-
-  const handleAddDevice = (newDevice: Device) => {
-    setDevices([...devices, newDevice]);
-  };
-
 
   if (!userProfile) {
     return <div>Loading...</div>;

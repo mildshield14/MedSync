@@ -1,8 +1,9 @@
-import { useEffect } from "react";
-import { useLocation } from "react-router-dom";
+import React, { useEffect } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const FitbitCallback: React.FC = () => {
     const location = useLocation();
+    const navigate = useNavigate();
 
     useEffect(() => {
         const params = new URLSearchParams(location.search);
@@ -43,12 +44,14 @@ const FitbitCallback: React.FC = () => {
             localStorage.setItem("fitbit_access_token", access_token);
             localStorage.setItem("fitbit_refresh_token", refresh_token);
 
-            // Redirect to the dashboard or another page
-            window.location.href = "/dashboard";
+            // Redirect to the profile page
+            navigate("/profile");
         } else {
             console.error("Error exchanging code for tokens:", await response.text());
         }
     };
-}
+
+    return <div>Loading...</div>; // Return valid JSX
+};
 
 export default FitbitCallback;
