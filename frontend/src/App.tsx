@@ -16,6 +16,7 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import Dashboard from "./components/Dashboard";
 import Navbar from "./components/Navbar";
 import Profile from "./components/Profile.tsx";
+import FitbitCallback from "./components/FitbitCallback.tsx";
 
 import Scene from "./Scene.jsx";
 
@@ -105,6 +106,11 @@ function App() {
             </ProtectedRoute>
           }
         ></Route>
+
+        <Route
+            path="/profile"
+            element={<FitbitCallback />}
+        />
 
         {/* Protected Dashboard */}
         <Route
